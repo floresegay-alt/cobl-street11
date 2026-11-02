@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Players | COBL x Street 11 Basketball</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f7fb;--surface:#fff;--text:#0b1330;--muted:#4b5575;--blue:#1b3fd8;--yellow:#ffd60a;--line:#dde2f0;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#070b1f;--surface:#0f1633;--text:#f4f6ff;--muted:#a8b2d6;--line:#222c57;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Poppins,system-ui,sans-serif;line-height:1.5;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+h1,h2,h3{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.02em;margin:0}
+.hero{background:linear-gradient(135deg,#0a1f8f,#06116b);color:#fff;padding:28px 0 36px}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+.hero a{color:#fff;text-decoration:none;font-size:14px;opacity:.85}
+.hero h1{font-size:clamp(40px,9vw,72px);line-height:1;margin-top:14px}
+.hero h1 span{color:var(--yellow)}
+.hero p{margin:8px 0 0;opacity:.9}
+.tools{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 14px}
+.tools input,.tools select{font:inherit;padding:11px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--text);min-width:0}
+.tools input{flex:1 1 220px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:99px;padding:6px 14px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.chip i{width:12px;height:12px;border-radius:50%;border:1px solid rgba(128,128,128,.6);display:inline-block}
+.chip.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.count{color:var(--muted);font-size:14px;margin:10px 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;padding-bottom:50px}
+.card{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--tc);border-radius:14px;padding:16px;cursor:pointer;text-align:left;font:inherit;color:inherit;display:flex;gap:14px;align-items:center}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.num{font-family:Anton,Impact,sans-serif;font-size:36px;line-height:1;min-width:54px;text-align:center;color:var(--blue)}
+@media (prefers-color-scheme:dark){.num{color:var(--yellow)}}
+.card b{display:block;font-size:15px;line-height:1.25}
+.card small{color:var(--muted);font-size:12px}
+.pos{display:inline-block;background:var(--yellow);color:#0b1330;border-radius:6px;padding:1px 8px;font-size:11px;font-weight:600;margin-right:6px}
+.empty{padding:50px 0;text-align:center;color:var(--muted)}
+dialog{border:0;border-radius:18px;padding:0;max-width:380px;width:92%;background:var(--surface);color:var(--text)}
+dialog::backdrop{background:rgba(0,0,0,.6)}
+.m{padding:28px 24px;text-align:center;border-top:10px solid var(--tc)}
+.m .big{font-family:Anton,Impact,sans-serif;font-size:84px;line-height:1;color:var(--blue)}
+@media (prefers-color-scheme:dark){.m .big{color:var(--yellow)}}
+.m h2{font-size:28px;margin:6px 0}
+.m p{margin:4px 0;color:var(--muted)}
+.m button{margin-top:18px;background:var(--blue);color:#fff;border:0;border-radius:10px;padding:10px 26px;font:inherit;font-weight:600;cursor:pointer}
+.avg{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:18px}
+.avg div{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 2px}
+.avg b{display:block;font-family:Anton,Impact,sans-serif;font-weight:400;font-size:22px;color:var(--blue)}
+@media (prefers-color-scheme:dark){.avg b{color:var(--yellow)}}
+.avg span{font-size:11px;color:var(--muted);font-weight:600}
+.avt{margin-top:18px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.ph{width:52px;height:52px;border-radius:50%;object-fit:cover;flex:0 0 auto;border:2px solid var(--line)}
+.card small.ppg{display:block;margin-top:2px;font-weight:600;color:var(--text);font-size:12px}
+.mph{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid var(--tc);margin-bottom:6px}
+.lead{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;margin:22px 0 4px}
+.lead h2{font-size:26px;margin-bottom:10px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tabs button{font:inherit;font-size:13px;font-weight:600;padding:6px 14px;border-radius:99px;border:1px solid var(--line);background:var(--bg);color:var(--text);cursor:pointer}
+.tabs button.on{background:var(--yellow);color:#0b1330;border-color:var(--yellow)}
+.row{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;border-bottom:1px solid var(--line);padding:9px 2px;font:inherit;color:inherit;cursor:pointer;text-align:left}
+.row:last-child{border-bottom:0}
+.rk{font-family:Anton,Impact,sans-serif;font-size:20px;width:26px;color:var(--muted)}
+.row span.nm{flex:1;font-weight:600}.row small{color:var(--muted);font-weight:400;margin-left:6px}
+.row b{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:22px;color:var(--blue)}
+@media (prefers-color-scheme:dark){.row b{color:var(--yellow)}}
+.adm{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:14px;margin:14px 0;font-size:13px}
+.adm code{display:block;word-break:break-all}
+.tools input,.tools select{font-size:16px}
+@media (max-width:640px){
+ .wrap{padding:0 14px}
+ .hero{padding:18px 0 26px}
+ .tools input,.tools select{padding:13px 14px;flex:1 1 100%;width:100%}
+ .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px;margin-right:-14px;padding-right:14px;-webkit-overflow-scrolling:touch}
+ .chip{flex:0 0 auto;padding:10px 14px}
+ .grid{grid-template-columns:1fr;gap:10px}
+ .card{padding:14px}
+ .lead{padding:14px}
+ .row{padding:12px 2px}
+ .m button{min-height:46px;width:100%}
+ .m .big{font-size:72px}
+}
+footer{text-align:center;padding:26px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+footer a{color:inherit}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <a href="index.html">&larr; COBL x Street 11 Basketball</a>
+  <h1>Season 3 <span>Players</span></h1>
+  <p>Meet the players and teams competing this season.</p>
+</div></header>
+<main class="wrap">
+  <section class="lead" id="lead" hidden><h2>Season Leaders</h2><div class="tabs" id="tabs"></div><div id="rows"></div></section>
+  <div id="adm"></div>
+  <div class="tools">
+    <input id="q" type="search" placeholder="Search name, jersey name or number" aria-label="Search players">
+    <select id="pos" aria-label="Position"><option value="">All positions</option><option value="PG">Point Guard</option><option value="SG">Shooting Guard</option><option value="SF">Small Forward</option><option value="F">Forward</option><option value="C">Center</option></select>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="count" id="count"></div>
+  <div class="grid" id="grid"></div>
+</main>
+<dialog id="dlg"><div class="m" id="m"></div></dialog>
+<footer>&copy; 2026 COBL Committee &middot; <a href="index.html">Home</a></footer>
+<script>
+const P=[{"n":"Richard Manguera","t":1,"p":"PG","j":"4","jn":"Manguera"},{"n":"Castanares Jacque","t":1,"p":"SG","j":"20","jn":"CASTAÑARES"},{"n":"John Lloyd Acosta","t":1,"p":"F","j":"25","jn":"Acosta"},{"n":"James Errod Jose","t":1,"p":"C","j":"19","jn":"JAMES ERROD"},{"n":"Jayson Adriano","t":1,"p":"PG","j":"13","jn":"Adri"},{"n":"Christopher Salvador","t":1,"p":"SG","j":"31","jn":"Chris"},{"n":"Nino Cordero","t":1,"p":"SG","j":"10","jn":"Nino"},{"n":"Carlos Añober Jr.","t":1,"p":"SF","j":"15","jn":"AÑOBER"},{"n":"Emmanuel Laga","t":1,"p":"SF","j":"7","jn":"Emman"},{"n":"Jason Quiroda","t":1,"p":"F","j":"28","jn":"Jayron dave"},{"n":"Bryan Diola Veyra","t":1,"p":"PG","j":"5","jn":"Veyra"},{"n":"Armand Dave Lontoc","t":1,"p":"SG","j":"13","jn":"LONTOC"},{"n":"Lerio Rich","t":1,"p":"SG","j":"25","jn":"Lerio"},{"n":"Mitchel Sernande","t":1,"p":"SF","j":"4","jn":"Sernande"},{"n":"Josiah John Maghari","t":1,"p":"F","j":"44","jn":"Maghari"},{"n":"Jerry Marzan Luis","t":1,"p":"C","j":"17","jn":"JER"},{"n":"Kendrick Ramos","t":2,"p":"SG","j":"6","jn":"Ramos"},{"n":"Travel Zi Han","t":2,"p":"SF","j":"11","jn":"Travel"},{"n":"June Rio D. Ramos","t":2,"p":"C","j":"99","jn":"RAMOS"},{"n":"Cabatuan Mark Anthony B","t":2,"p":"PG","j":"22","jn":"CABATUAN"},{"n":"Andrie San Juan","t":2,"p":"SG","j":"13","jn":"ANDRIE"},{"n":"Miguel Angelo R. Aguillon","t":2,"p":"SG","j":"27","jn":"JIBREEL"},{"n":"Steven Luis Manalo Domingo","t":2,"p":"SF","j":"21","jn":"Domech"},{"n":"Carlo Apil","t":2,"p":"F","j":"14","jn":"CJC"},{"n":"Marco Antonio Alabado","t":2,"p":"F","j":"22","jn":"Alabado"},{"n":"Elmar Foronda","t":2,"p":"PG","j":"3","jn":"EJ FORONDA"},{"n":"Josh Roi Dela Cruz","t":2,"p":"PG","j":"7","jn":"Eli"},{"n":"Glenn Sombillo","t":2,"p":"SG","j":"5","jn":"Sombillo"},{"n":"John Calvin Delos Santos","t":2,"p":"SG","j":"1","jn":"DELOS SANTOS"},{"n":"Ronald Sabando Setubal","t":2,"p":"SF","j":"22","jn":"Sabando"},{"n":"Renz Pangan","t":2,"p":"F","j":"20","jn":"PANGAN"},{"n":"Carl Joe Galarita","t":3,"p":"SF","j":"00","jn":"GALARITA"},{"n":"Khoo Er Ze","t":3,"p":"SF","j":"5","jn":"khoo"},{"n":"Akeem Inocencio","t":3,"p":"C","j":"0","jn":"Akeem"},{"n":"Pejie Mapait","t":3,"p":"PG","j":"34","jn":"PJ"},{"n":"Gian Carlo Nilay","t":3,"p":"SG","j":"13","jn":"Nilay"},{"n":"Hans Cumabig","t":3,"p":"SG","j":"7","jn":"CUMABIG"},{"n":"Jeff Raven Callos","t":3,"p":"SF","j":"24","jn":"CALLOS"},{"n":"Canoza Joshua","t":3,"p":"F","j":"18","jn":"Canoza"},{"n":"Anthony Ellado","t":3,"p":"C","j":"8","jn":"Ellado"},{"n":"Jeffrey Unabia Andales","t":3,"p":"PG","j":"25","jn":"Andales"},{"n":"Johdee Lagahid","t":3,"p":"SG","j":"11","jn":"JOHDZ"},{"n":"Michael Tacgos","t":3,"p":"SG","j":"29","jn":"MICHAEL"},{"n":"Kent Rovic D. Silang","t":3,"p":"F","j":"7","jn":"Silang"},{"n":"Louie Anjoe Bucay","t":3,"p":"F","j":"27","jn":"BUCAY"},{"n":"Vivencio Villanueva Jr","t":3,"p":"C","j":"21","jn":"Villanueva Jr"},{"n":"Rene Delon","t":3,"p":"SG","j":"5","jn":"delon"},{"n":"Karl Quiminiano","t":4,"p":"PG","j":"8","jn":"Quim"},{"n":"Wilkins Alcantara","t":4,"p":"SG","j":"19","jn":"ALCANTARA"},{"n":"Yohan Espino","t":4,"p":"C","j":"24","jn":"ESPINO"},{"n":"John Mallari","t":4,"p":"PG","j":"00","jn":"MALLARI"},{"n":"Khen DG. Sarmiento","t":4,"p":"SG","j":"18","jn":"Sarmiento"},{"n":"Mark Angelo Verceles Tabiano","t":4,"p":"SG","j":"7","jn":"Angelo"},{"n":"Adam Dizon","t":4,"p":"SF","j":"1","jn":"Adam"},{"n":"Justin Torres","t":4,"p":"SF","j":"67","jn":"J.TORRES"},{"n":"Wilbert Emil","t":4,"p":"F","j":"26","jn":"Emil"},{"n":"Archie Colonia","t":4,"p":"SG","j":"18","jn":"Colonia"},{"n":"Locsin Bernie","t":4,"p":"SG","j":"8","jn":"Locsin"},{"n":"Michael Bongo","t":4,"p":"SG","j":"47","jn":"Bongo"},{"n":"Guillermo Cuizon Auxtero","t":4,"p":"SF","j":"11","jn":"Auxtero"},{"n":"Enrico O. Quijano","t":4,"p":"F","j":"26","jn":"QUIJANO"},{"n":"Vincent C. Viliran","t":4,"p":"F","j":"12","jn":"Viliran"},{"n":"Iyyappan Krishnamoorthy","t":4,"p":"C","j":"11","jn":"Iyyappan"},{"n":"Jeff Bj Tan Delos Santos","t":5,"p":"PG","j":"4","jn":"Jepong"},{"n":"Mark Gerson Oganiza Rosolada","t":5,"p":"SG","j":"24","jn":"ROSOLADA"},{"n":"Joebert Fajardo","t":5,"p":"C","j":"3","jn":"Fajardo"},{"n":"Budok","t":5,"p":"PG","j":"88","jn":"budok"},{"n":"Christian Macapagal","t":5,"p":"SG","j":"1","jn":"Macapagal"},{"n":"Roy Jurial","t":5,"p":"SG","j":"16","jn":"Jurial"},{"n":"Totek Bocalan","t":5,"p":"SF","j":"7","jn":"BOCALAN"},{"n":"Louie Molina","t":5,"p":"F","j":"11","jn":"Molina"},{"n":"John Collado","t":5,"p":"C","j":"21","jn":"John"},{"n":"Marc Darryl Echalico","t":5,"p":"PG","j":"2","jn":"ECHALICO"},{"n":"Paul Philip Lavilla","t":5,"p":"PG","j":"23","jn":"Paul"},{"n":"Justine Oliver Pagaduan","t":5,"p":"SG","j":"5","jn":"Pagaduan"},{"n":"Sagarino John Joseph Ambay","t":5,"p":"SG","j":"14","jn":"J.J Sagarino"},{"n":"Caleon Melvin Santos","t":5,"p":"SF","j":"10","jn":"Caleon"},{"n":"Gabriel Alcazar","t":5,"p":"F","j":"24","jn":"Alcazar"},{"n":"Gawi Kelvin Jay","t":5,"p":"F","j":"27","jn":"GAWI"},{"n":"Harold Aranduque","t":6,"p":"PG","j":"28","jn":"ARANDUQUE.H"},{"n":"Pon Neil Joseph G","t":6,"p":"F","j":"4 or 9","jn":"PON"},{"n":"Amista Michael Raymond S.","t":6,"p":"C","j":"7","jn":"Amista"},{"n":"Lynrd Skynrd Sanchez","t":6,"p":"PG","j":"74","jn":"Sanchez"},{"n":"Dunhill Golisao","t":6,"p":"SG","j":"7","jn":"Dunhill"},{"n":"Norman Magbanua","t":6,"p":"SG","j":"29","jn":"JHONG"},{"n":"Manalastas Laurence Arceo","t":6,"p":"SF","j":"16","jn":"Manalastas"},{"n":"Nick Ruiz","t":6,"p":"SF","j":"13","jn":"RUIZ"},{"n":"Jude Padilla","t":6,"p":"F","j":"3","jn":"Padilla"},{"n":"John Carlo Escario","t":6,"p":"C","j":"91","jn":"Juancho"},{"n":"Geoffrey Boholst","t":6,"p":"PG","j":"21","jn":"Boholst"},{"n":"Ryan","t":6,"p":"PG","j":"79","jn":"Auriel"},{"n":"Aldrich Ruzzel Beltran Singh","t":6,"p":"SG","j":"29","jn":"SINGH"},{"n":"Jeff Verdan","t":6,"p":"SG","j":"14","jn":"Verdan"},{"n":"Ramil Dave Laureles","t":6,"p":"SG","j":"8","jn":"LAURELES"},{"n":"Jay Dax Andrada","t":6,"p":"SF","j":"25","jn":"Dax"},{"n":"John Ryan Josol","t":7,"p":"PG","j":"14","jn":"JOSOL"},{"n":"Mata Alvin Castro","t":7,"p":"SG","j":"9","jn":"Mata Jr."},{"n":"Ian Fritz Lucas","t":7,"p":"C","j":"18","jn":"Lucas"},{"n":"Christian Garcia","t":7,"p":"SG","j":"9","jn":"Garcia"},{"n":"Felix Lupio","t":7,"p":"SG","j":"23","jn":"AMARI AELIX"},{"n":"Franz Jarelle De Guzman","t":7,"p":"SF","j":"8","jn":"De Guzman"},{"n":"Kit John Guiritan","t":7,"p":"SF","j":"8","jn":"Guiritan"},{"n":"Martin Mendoza","t":7,"p":"F","j":"20","jn":"NITRAM"},{"n":"James Lorete","t":7,"p":"C","j":"10","jn":"Lorete"},{"n":"Rene Peralta","t":7,"p":"PG","j":"13","jn":"Peralta"},{"n":"Reynaldo Endianon","t":7,"p":"PG","j":"18","jn":"ENDIANON"},{"n":"Hetrosa Gabriel Mark Egido","t":7,"p":"SG","j":"8","jn":"HETROSA"},{"n":"Suplado Greg","t":7,"p":"SG","j":"14","jn":"Suplado"},{"n":"Ronnel Beltran","t":7,"p":"SF","j":"8","jn":"OneL"},{"n":"Arat Jefferson Maala","t":7,"p":"F","j":"15","jn":"Jepoy"},{"n":"Padilla JP","t":7,"p":"F","j":"38","jn":"Padilla"},{"n":"Cj Maclang","t":8,"p":"PG","j":"8","jn":"Maclang"},{"n":"Klark Serafica","t":8,"p":"SG","j":"26","jn":"Serafica"},{"n":"Paule Marco","t":8,"p":"C","j":"9","jn":"Paule"},{"n":"John Paul Agcarao","t":8,"p":"PG","j":"18","jn":"Agcarao"},{"n":"Aris Serrano","t":8,"p":"SG","j":"7","jn":"Serrano"},{"n":"Audal John Paul","t":8,"p":"SG","j":"8","jn":"Paul"},{"n":"Seth Lorenz Ligason","t":8,"p":"SF","j":"7","jn":"Ligason"},{"n":"Wenson Roldan","t":8,"p":"SF","j":"11","jn":"ROLDAN"},{"n":"Canapi Wilmar","t":8,"p":"F","j":"12","jn":"CANAPI"},{"n":"Dhaeniel Justin Soto Dacaimat","t":8,"p":"C","j":"6","jn":"Dacaimat"},{"n":"Buri Lexter Deza","t":8,"p":"PG","j":"13","jn":"Buri"},{"n":"Ciriaco George Gepiga","t":8,"p":"PG","j":"8","jn":"GEPIGA"},{"n":"Jig Bibat","t":8,"p":"SG","j":"26","jn":"BIBAT"},{"n":"John Sibayan","t":8,"p":"SG","j":"28","jn":"JOHN"},{"n":"JBlite Del Rosario","t":8,"p":"SF","j":"3","jn":"Joiboi"},{"n":"Nathan Dale Elep","t":8,"p":"F","j":"24","jn":"Nathan"},{"n":"Demura Kelvin","t":9,"p":"PG","j":"12","jn":"Demura"},{"n":"Marc Clemente","t":9,"p":"SG","j":"28","jn":"Marc"},{"n":"John Henry Lumactud","t":9,"p":"C","j":"89","jn":"Keon Keila"},{"n":"Aaron Christian V Magtibay","t":9,"p":"SG","j":"13","jn":"Magtibay"},{"n":"Valbarez Smith Urate","t":9,"p":"SG","j":"23","jn":"MR.SMITH"},{"n":"Dave Santillan","t":9,"p":"SF","j":"15","jn":"Santillan"},{"n":"Robert John II Reganit Sacatani","t":9,"p":"SF","j":"6","jn":"Sacatani"},{"n":"Cantor Ramon Christopher Guttan","t":9,"p":"F","j":"27","jn":"DON"},{"n":"Mark","t":9,"p":"F","j":"71","jn":"Garcia"},{"n":"Eric Garbo","t":9,"p":"PG","j":"16","jn":"GARBO"},{"n":"Gershom Polistico","t":9,"p":"SG","j":"22","jn":"Polistico"},{"n":"Maccrae Ongy","t":9,"p":"SG","j":"0","jn":"Ongy"},{"n":"Sy Mark Joseph","t":9,"p":"SG","j":"9","jn":"Sy"},{"n":"John Fritz Emmanuel V. Concepcion","t":9,"p":"SF","j":"23","jn":"Concepcion"},{"n":"Mc Muriel Valmores","t":9,"p":"F","j":"20","jn":"Valmores"}];
+const TEAMS={1:['Green','#1f9d55'],2:['Black','#111111'],3:['White','#e8e8e8'],4:['Blue','#2563eb'],5:['Orange','#f97316'],6:['Red','#dc2626'],7:['Gold','#eab308'],8:['Gray','#6b7280'],9:['Teal','#0d9488']};
+const POS={PG:'Point Guard',SG:'Shooting Guard',SF:'Small Forward',F:'Forward',C:'Center'};
+let team=0, GAMES=[];
+const norm=s=>String(s||'').trim().toLowerCase().replace(/^0+(?=\d)/,'');
+function avgs(p){
+  let g=0,t={pts:0,reb:0,ast:0,stl:0,eff:0};
+  for(const gm of GAMES)for(const r of gm.rows){
+    const nm=r.name&&(norm(r.name)===norm(p.jn)||norm(r.name)===norm(p.n));const dup=P.filter(q=>q.t===p.t&&norm(q.j)===norm(p.j)).length>1;const ok=(r.team&&r.team==='Team '+p.t&&norm(r.num)===norm(p.j)&&(!dup||nm))||((!r.team||r.team==='Team '+p.t)&&nm);
+    if(ok){g++;for(const k in t)t[k]+=+r[k]||0}
+  }
+  return g?{g,pts:t.pts/g,reb:t.reb/g,ast:t.ast/g,stl:t.stl/g,eff:t.eff/g}:null;
+}
+fetch('season-stats.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{if(j&&j.games)GAMES=j.games}).catch(()=>{}).then(()=>{list();leaders()});
+const $=id=>document.getElementById(id);
+const slug=n=>n.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const photo=(p,c)=>'<img class="'+c+'" src="photos/'+slug(p.n)+'.jpg" loading="lazy" alt="" onerror="this.remove()">';
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function chips(){
+  let h='<button class="chip'+(team===0?' on':'')+'" data-t="0">All teams</button>';
+  for(const t in TEAMS) h+='<button class="chip'+(team==t?' on':'')+'" data-t="'+t+'"><i style="background:'+TEAMS[t][1]+'"></i>Team '+t+'</button>';
+  $('chips').innerHTML=h;
+}
+function list(){
+  const q=$('q').value.trim().toLowerCase(), ps=$('pos').value;
+  const r=P.filter(p=>(!team||p.t==team)&&(!ps||p.p===ps)&&(!q||(p.n+' '+p.jn+' '+p.j).toLowerCase().includes(q)));
+  $('count').textContent=r.length+' player'+(r.length===1?'':'s');
+  $('grid').innerHTML=r.length?r.map(p=>{const i=P.indexOf(p);return '<button class="card" style="--tc:'+TEAMS[p.t][1]+'" data-i="'+i+'"><span class="num">'+esc(p.j)+'</span>'+photo(p,'ph')+'<span><b>'+esc(p.n)+'</b><small><span class="pos">'+p.p+'</span>Team '+p.t+'</small>'+(a=>a?'<small class="ppg">'+a.pts.toFixed(1)+' PPG</small>':'')(avgs(p))+'</span></button>'}).join(''):'<div class="empty">No players found.</div>';
+}
+$('chips').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;team=+b.dataset.t;chips();list()};
+$('q').oninput=list;$('pos').onchange=list;
+$('grid').onclick=e=>{const b=e.target.closest('.card');if(!b)return;const p=P[b.dataset.i];
+  $('m').style.setProperty('--tc',TEAMS[p.t][1]);
+  $('m').innerHTML=photo(p,'mph')+'<div class="big">'+esc(p.j)+'</div><h2>'+esc(p.n)+'</h2><p>'+POS[p.p]+'</p><p>Team '+p.t+' &middot; '+TEAMS[p.t][0]+'</p>'+(p.jn?'<p>Jersey name: <b>'+esc(p.jn)+'</b></p>':'')+avgHtml(p)+'<button onclick="dlg.close()">Close</button>';
+  $('dlg').showModal()};
+function avgHtml(p){
+  const a=avgs(p);
+  if(!a)return '<div class="avt">Season averages</div><p>Stats will appear after games are played.</p>';
+  const f=x=>x.toFixed(1);
+  return '<div class="avt">Season averages &middot; '+a.g+' game'+(a.g===1?'':'s')+'</div><div class="avg"><div><b>'+f(a.pts)+'</b><span>PTS</span></div><div><b>'+f(a.reb)+'</b><span>REB</span></div><div><b>'+f(a.ast)+'</b><span>AST</span></div><div><b>'+f(a.stl)+'</b><span>STL</span></div><div><b>'+f(a.eff)+'</b><span>EFF</span></div></div>';
+}
+$('dlg').onclick=e=>{if(e.target.id==='dlg')e.target.close()};
+let ls='pts';
+const LS={pts:'PTS',reb:'REB',ast:'AST',stl:'STL',eff:'EFF'};
+function leaders(){
+  const all=P.map((p,i)=>({i,a:avgs(p)})).filter(x=>x.a);
+  $('lead').hidden=!all.length;
+  if(!all.length)return;
+  $('tabs').innerHTML=Object.keys(LS).map(k=>'<button data-k="'+k+'"'+(k===ls?' class="on"':'')+'>'+LS[k]+'</button>').join('');
+  all.sort((x,y)=>y.a[ls]-x.a[ls]);
+  $('rows').innerHTML=all.slice(0,5).map((x,r)=>{const p=P[x.i];return '<button class="row" data-i="'+x.i+'"><span class="rk">'+(r+1)+'</span><span class="nm">'+esc(p.n)+'<small>Team '+p.t+' &middot; #'+esc(p.j)+'</small></span><b>'+x.a[ls].toFixed(1)+'</b></button>'}).join('');
+}
+$('tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;ls=b.dataset.k;leaders()};
+$('rows').onclick=e=>{const b=e.target.closest('.row');if(b)$('grid').onclick({target:{closest:()=>({dataset:{i:b.dataset.i}})}})};
+if(location.search.includes('photos'))$('adm').innerHTML='<div class="adm"><b>Photo file names</b> (save each photo as .jpg in a <code style="display:inline">photos</code> folder in the repo):'+P.map(p=>'<code>photos/'+slug(p.n)+'.jpg</code>').join('')+'</div>';
+chips();list();
+</script>
+</body>
+</html>
