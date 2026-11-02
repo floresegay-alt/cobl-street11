@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Season MVP Race | COBL x Street 11 Basketball</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f7fb;--surface:#fff;--text:#0b1330;--muted:#4b5575;--blue:#1b3fd8;--yellow:#ffd60a;--line:#dde2f0;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#070b1f;--surface:#0f1633;--text:#f4f6ff;--muted:#a8b2d6;--line:#222c57;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Poppins,system-ui,sans-serif;line-height:1.5;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+h1,h2,h3{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.02em;margin:0}
+.wrap{max-width:900px;margin:0 auto;padding:0 20px}
+.hero{background:linear-gradient(135deg,#0a1f8f,#06116b);color:#fff;padding:28px 0 36px}
+.hero a{color:#fff;text-decoration:none;font-size:14px;opacity:.85}
+.hero h1{font-size:clamp(40px,9vw,72px);line-height:1;margin-top:14px}
+.hero h1 span{color:var(--yellow)}
+.hero p{margin:8px 0 0;opacity:.9;max-width:560px}
+.note{color:var(--muted);font-size:13px;margin:18px 0}
+.leader{background:linear-gradient(135deg,#0a1f8f,#06116b);color:#fff;border:4px solid var(--yellow);border-radius:20px;padding:24px;margin:22px 0;text-align:center}
+.leader .tag{display:inline-block;background:var(--yellow);color:#0b1330;font-weight:600;font-size:12px;padding:4px 12px;border-radius:99px;letter-spacing:.08em;text-transform:uppercase}
+.leader img{width:110px;height:110px;border-radius:50%;object-fit:cover;border:4px solid var(--yellow);display:block;margin:14px auto 0}
+.leader h2{font-size:clamp(30px,7vw,52px);margin:10px 0 2px}
+.leader p{margin:0;opacity:.85}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:16px}
+.stats div{background:rgba(255,255,255,.12);border-radius:10px;padding:8px 2px}
+.stats b{display:block;font-family:Anton,Impact,sans-serif;font-weight:400;font-size:24px;color:var(--yellow)}
+.stats span{font-size:11px;opacity:.85;font-weight:600}
+.list{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:40px}
+.row{display:grid;grid-template-columns:40px 1fr repeat(5,minmax(44px,60px));gap:6px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);border-left:6px solid var(--tc,transparent)}
+.row:last-child{border-bottom:0}
+.hd{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;background:var(--bg)}
+.rk{font-family:Anton,Impact,sans-serif;font-size:22px;color:var(--muted)}
+.nm b{display:block;line-height:1.2}.nm small{color:var(--muted)}
+.v{text-align:center;font-weight:600}
+.v.e{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:20px;color:var(--blue)}
+@media (prefers-color-scheme:dark){.v.e{color:var(--yellow)}}
+.bar{height:5px;background:var(--line);border-radius:3px;margin-top:5px;overflow:hidden}.bar i{display:block;height:100%;background:var(--yellow)}
+.empty{padding:50px 20px;text-align:center;color:var(--muted)}
+@media (max-width:640px){.row{grid-template-columns:30px 1fr repeat(3,40px);font-size:13px}.row .h2{display:none}.stats{grid-template-columns:repeat(3,1fr)}}
+footer{text-align:center;padding:26px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+footer a{color:inherit}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <a href="index.html">&larr; COBL x Street 11 Basketball</a>
+  <h1>Season <span>MVP Race</span></h1>
+  <p>Who is leading the race for Season 3 MVP? Ranked by average efficiency per game.</p>
+</div></header>
+<main class="wrap">
+  <div id="out"><div class="empty">Loading&hellip;</div></div>
+  <p class="note" id="note"></p>
+</main>
+<footer>&copy; 2026 COBL Committee &middot; <a href="index.html">Home</a> &middot; <a href="players.html">Players</a></footer>
+<script>
+const P=[{"n":"Richard Manguera","t":1,"p":"PG","j":"4","jn":"Manguera"},{"n":"Castanares Jacque","t":1,"p":"SG","j":"20","jn":"CASTAÑARES"},{"n":"John Lloyd Acosta","t":1,"p":"F","j":"25","jn":"Acosta"},{"n":"James Errod Jose","t":1,"p":"C","j":"19","jn":"JAMES ERROD"},{"n":"Jayson Adriano","t":1,"p":"PG","j":"13","jn":"Adri"},{"n":"Christopher Salvador","t":1,"p":"SG","j":"31","jn":"Chris"},{"n":"Nino Cordero","t":1,"p":"SG","j":"10","jn":"Nino"},{"n":"Carlos Añober Jr.","t":1,"p":"SF","j":"15","jn":"AÑOBER"},{"n":"Emmanuel Laga","t":1,"p":"SF","j":"7","jn":"Emman"},{"n":"Jason Quiroda","t":1,"p":"F","j":"28","jn":"Jayron dave"},{"n":"Bryan Diola Veyra","t":1,"p":"PG","j":"5","jn":"Veyra"},{"n":"Armand Dave Lontoc","t":1,"p":"SG","j":"13","jn":"LONTOC"},{"n":"Lerio Rich","t":1,"p":"SG","j":"25","jn":"Lerio"},{"n":"Mitchel Sernande","t":1,"p":"SF","j":"4","jn":"Sernande"},{"n":"Josiah John Maghari","t":1,"p":"F","j":"44","jn":"Maghari"},{"n":"Jerry Marzan Luis","t":1,"p":"C","j":"17","jn":"JER"},{"n":"Kendrick Ramos","t":2,"p":"SG","j":"6","jn":"Ramos"},{"n":"Travel Zi Han","t":2,"p":"SF","j":"11","jn":"Travel"},{"n":"June Rio D. Ramos","t":2,"p":"C","j":"99","jn":"RAMOS"},{"n":"Cabatuan Mark Anthony B","t":2,"p":"PG","j":"22","jn":"CABATUAN"},{"n":"Andrie San Juan","t":2,"p":"SG","j":"13","jn":"ANDRIE"},{"n":"Miguel Angelo R. Aguillon","t":2,"p":"SG","j":"27","jn":"JIBREEL"},{"n":"Steven Luis Manalo Domingo","t":2,"p":"SF","j":"21","jn":"Domech"},{"n":"Carlo Apil","t":2,"p":"F","j":"14","jn":"CJC"},{"n":"Marco Antonio Alabado","t":2,"p":"F","j":"22","jn":"Alabado"},{"n":"Elmar Foronda","t":2,"p":"PG","j":"3","jn":"EJ FORONDA"},{"n":"Josh Roi Dela Cruz","t":2,"p":"PG","j":"7","jn":"Eli"},{"n":"Glenn Sombillo","t":2,"p":"SG","j":"5","jn":"Sombillo"},{"n":"John Calvin Delos Santos","t":2,"p":"SG","j":"1","jn":"DELOS SANTOS"},{"n":"Ronald Sabando Setubal","t":2,"p":"SF","j":"22","jn":"Sabando"},{"n":"Renz Pangan","t":2,"p":"F","j":"20","jn":"PANGAN"},{"n":"Carl Joe Galarita","t":3,"p":"SF","j":"00","jn":"GALARITA"},{"n":"Khoo Er Ze","t":3,"p":"SF","j":"5","jn":"khoo"},{"n":"Akeem Inocencio","t":3,"p":"C","j":"0","jn":"Akeem"},{"n":"Pejie Mapait","t":3,"p":"PG","j":"34","jn":"PJ"},{"n":"Gian Carlo Nilay","t":3,"p":"SG","j":"13","jn":"Nilay"},{"n":"Hans Cumabig","t":3,"p":"SG","j":"7","jn":"CUMABIG"},{"n":"Jeff Raven Callos","t":3,"p":"SF","j":"24","jn":"CALLOS"},{"n":"Canoza Joshua","t":3,"p":"F","j":"18","jn":"Canoza"},{"n":"Anthony Ellado","t":3,"p":"C","j":"8","jn":"Ellado"},{"n":"Jeffrey Unabia Andales","t":3,"p":"PG","j":"25","jn":"Andales"},{"n":"Johdee Lagahid","t":3,"p":"SG","j":"11","jn":"JOHDZ"},{"n":"Michael Tacgos","t":3,"p":"SG","j":"29","jn":"MICHAEL"},{"n":"Kent Rovic D. Silang","t":3,"p":"F","j":"7","jn":"Silang"},{"n":"Louie Anjoe Bucay","t":3,"p":"F","j":"27","jn":"BUCAY"},{"n":"Vivencio Villanueva Jr","t":3,"p":"C","j":"21","jn":"Villanueva Jr"},{"n":"Rene Delon","t":3,"p":"SG","j":"5","jn":"delon"},{"n":"Karl Quiminiano","t":4,"p":"PG","j":"8","jn":"Quim"},{"n":"Wilkins Alcantara","t":4,"p":"SG","j":"19","jn":"ALCANTARA"},{"n":"Yohan Espino","t":4,"p":"C","j":"24","jn":"ESPINO"},{"n":"John Mallari","t":4,"p":"PG","j":"00","jn":"MALLARI"},{"n":"Khen DG. Sarmiento","t":4,"p":"SG","j":"18","jn":"Sarmiento"},{"n":"Mark Angelo Verceles Tabiano","t":4,"p":"SG","j":"7","jn":"Angelo"},{"n":"Adam Dizon","t":4,"p":"SF","j":"1","jn":"Adam"},{"n":"Justin Torres","t":4,"p":"SF","j":"67","jn":"J.TORRES"},{"n":"Wilbert Emil","t":4,"p":"F","j":"26","jn":"Emil"},{"n":"Archie Colonia","t":4,"p":"SG","j":"18","jn":"Colonia"},{"n":"Locsin Bernie","t":4,"p":"SG","j":"8","jn":"Locsin"},{"n":"Michael Bongo","t":4,"p":"SG","j":"47","jn":"Bongo"},{"n":"Guillermo Cuizon Auxtero","t":4,"p":"SF","j":"11","jn":"Auxtero"},{"n":"Enrico O. Quijano","t":4,"p":"F","j":"26","jn":"QUIJANO"},{"n":"Vincent C. Viliran","t":4,"p":"F","j":"12","jn":"Viliran"},{"n":"Iyyappan Krishnamoorthy","t":4,"p":"C","j":"11","jn":"Iyyappan"},{"n":"Jeff Bj Tan Delos Santos","t":5,"p":"PG","j":"4","jn":"Jepong"},{"n":"Mark Gerson Oganiza Rosolada","t":5,"p":"SG","j":"24","jn":"ROSOLADA"},{"n":"Joebert Fajardo","t":5,"p":"C","j":"3","jn":"Fajardo"},{"n":"Budok","t":5,"p":"PG","j":"88","jn":"budok"},{"n":"Christian Macapagal","t":5,"p":"SG","j":"1","jn":"Macapagal"},{"n":"Roy Jurial","t":5,"p":"SG","j":"16","jn":"Jurial"},{"n":"Totek Bocalan","t":5,"p":"SF","j":"7","jn":"BOCALAN"},{"n":"Louie Molina","t":5,"p":"F","j":"11","jn":"Molina"},{"n":"John Collado","t":5,"p":"C","j":"21","jn":"John"},{"n":"Marc Darryl Echalico","t":5,"p":"PG","j":"2","jn":"ECHALICO"},{"n":"Paul Philip Lavilla","t":5,"p":"PG","j":"23","jn":"Paul"},{"n":"Justine Oliver Pagaduan","t":5,"p":"SG","j":"5","jn":"Pagaduan"},{"n":"Sagarino John Joseph Ambay","t":5,"p":"SG","j":"14","jn":"J.J Sagarino"},{"n":"Caleon Melvin Santos","t":5,"p":"SF","j":"10","jn":"Caleon"},{"n":"Gabriel Alcazar","t":5,"p":"F","j":"24","jn":"Alcazar"},{"n":"Gawi Kelvin Jay","t":5,"p":"F","j":"27","jn":"GAWI"},{"n":"Harold Aranduque","t":6,"p":"PG","j":"28","jn":"ARANDUQUE.H"},{"n":"Pon Neil Joseph G","t":6,"p":"F","j":"4 or 9","jn":"PON"},{"n":"Amista Michael Raymond S.","t":6,"p":"C","j":"7","jn":"Amista"},{"n":"Lynrd Skynrd Sanchez","t":6,"p":"PG","j":"74","jn":"Sanchez"},{"n":"Dunhill Golisao","t":6,"p":"SG","j":"7","jn":"Dunhill"},{"n":"Norman Magbanua","t":6,"p":"SG","j":"29","jn":"JHONG"},{"n":"Manalastas Laurence Arceo","t":6,"p":"SF","j":"16","jn":"Manalastas"},{"n":"Nick Ruiz","t":6,"p":"SF","j":"13","jn":"RUIZ"},{"n":"Jude Padilla","t":6,"p":"F","j":"3","jn":"Padilla"},{"n":"John Carlo Escario","t":6,"p":"C","j":"91","jn":"Juancho"},{"n":"Geoffrey Boholst","t":6,"p":"PG","j":"21","jn":"Boholst"},{"n":"Ryan","t":6,"p":"PG","j":"79","jn":"Auriel"},{"n":"Aldrich Ruzzel Beltran Singh","t":6,"p":"SG","j":"29","jn":"SINGH"},{"n":"Jeff Verdan","t":6,"p":"SG","j":"14","jn":"Verdan"},{"n":"Ramil Dave Laureles","t":6,"p":"SG","j":"8","jn":"LAURELES"},{"n":"Jay Dax Andrada","t":6,"p":"SF","j":"25","jn":"Dax"},{"n":"John Ryan Josol","t":7,"p":"PG","j":"14","jn":"JOSOL"},{"n":"Mata Alvin Castro","t":7,"p":"SG","j":"9","jn":"Mata Jr."},{"n":"Ian Fritz Lucas","t":7,"p":"C","j":"18","jn":"Lucas"},{"n":"Christian Garcia","t":7,"p":"SG","j":"9","jn":"Garcia"},{"n":"Felix Lupio","t":7,"p":"SG","j":"23","jn":"AMARI AELIX"},{"n":"Franz Jarelle De Guzman","t":7,"p":"SF","j":"8","jn":"De Guzman"},{"n":"Kit John Guiritan","t":7,"p":"SF","j":"8","jn":"Guiritan"},{"n":"Martin Mendoza","t":7,"p":"F","j":"20","jn":"NITRAM"},{"n":"James Lorete","t":7,"p":"C","j":"10","jn":"Lorete"},{"n":"Rene Peralta","t":7,"p":"PG","j":"13","jn":"Peralta"},{"n":"Reynaldo Endianon","t":7,"p":"PG","j":"18","jn":"ENDIANON"},{"n":"Hetrosa Gabriel Mark Egido","t":7,"p":"SG","j":"8","jn":"HETROSA"},{"n":"Suplado Greg","t":7,"p":"SG","j":"14","jn":"Suplado"},{"n":"Ronnel Beltran","t":7,"p":"SF","j":"8","jn":"OneL"},{"n":"Arat Jefferson Maala","t":7,"p":"F","j":"15","jn":"Jepoy"},{"n":"Padilla JP","t":7,"p":"F","j":"38","jn":"Padilla"},{"n":"Cj Maclang","t":8,"p":"PG","j":"8","jn":"Maclang"},{"n":"Klark Serafica","t":8,"p":"SG","j":"26","jn":"Serafica"},{"n":"Paule Marco","t":8,"p":"C","j":"9","jn":"Paule"},{"n":"John Paul Agcarao","t":8,"p":"PG","j":"18","jn":"Agcarao"},{"n":"Aris Serrano","t":8,"p":"SG","j":"7","jn":"Serrano"},{"n":"Audal John Paul","t":8,"p":"SG","j":"8","jn":"Paul"},{"n":"Seth Lorenz Ligason","t":8,"p":"SF","j":"7","jn":"Ligason"},{"n":"Wenson Roldan","t":8,"p":"SF","j":"11","jn":"ROLDAN"},{"n":"Canapi Wilmar","t":8,"p":"F","j":"12","jn":"CANAPI"},{"n":"Dhaeniel Justin Soto Dacaimat","t":8,"p":"C","j":"6","jn":"Dacaimat"},{"n":"Buri Lexter Deza","t":8,"p":"PG","j":"13","jn":"Buri"},{"n":"Ciriaco George Gepiga","t":8,"p":"PG","j":"8","jn":"GEPIGA"},{"n":"Jig Bibat","t":8,"p":"SG","j":"26","jn":"BIBAT"},{"n":"John Sibayan","t":8,"p":"SG","j":"28","jn":"JOHN"},{"n":"JBlite Del Rosario","t":8,"p":"SF","j":"3","jn":"Joiboi"},{"n":"Nathan Dale Elep","t":8,"p":"F","j":"24","jn":"Nathan"},{"n":"Demura Kelvin","t":9,"p":"PG","j":"12","jn":"Demura"},{"n":"Marc Clemente","t":9,"p":"SG","j":"28","jn":"Marc"},{"n":"John Henry Lumactud","t":9,"p":"C","j":"89","jn":"Keon Keila"},{"n":"Aaron Christian V Magtibay","t":9,"p":"SG","j":"13","jn":"Magtibay"},{"n":"Valbarez Smith Urate","t":9,"p":"SG","j":"23","jn":"MR.SMITH"},{"n":"Dave Santillan","t":9,"p":"SF","j":"15","jn":"Santillan"},{"n":"Robert John II Reganit Sacatani","t":9,"p":"SF","j":"6","jn":"Sacatani"},{"n":"Cantor Ramon Christopher Guttan","t":9,"p":"F","j":"27","jn":"DON"},{"n":"Mark","t":9,"p":"F","j":"71","jn":"Garcia"},{"n":"Eric Garbo","t":9,"p":"PG","j":"16","jn":"GARBO"},{"n":"Gershom Polistico","t":9,"p":"SG","j":"22","jn":"Polistico"},{"n":"Maccrae Ongy","t":9,"p":"SG","j":"0","jn":"Ongy"},{"n":"Sy Mark Joseph","t":9,"p":"SG","j":"9","jn":"Sy"},{"n":"John Fritz Emmanuel V. Concepcion","t":9,"p":"SF","j":"23","jn":"Concepcion"},{"n":"Mc Muriel Valmores","t":9,"p":"F","j":"20","jn":"Valmores"}];
+const TC={1:'#1f9d55',2:'#111111',3:'#9a9a9a',4:'#2563eb',5:'#f97316',6:'#dc2626',7:'#eab308',8:'#6b7280',9:'#0d9488'};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const slug=n=>n.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const norm=s=>String(s||'').trim().toLowerCase().replace(/^0+(?=\d)/,'');
+function match(r){
+  for(let i=0;i<P.length;i++){const p=P[i];
+    if(r.team&&r.team==='Team '+p.t&&norm(r.num)===norm(p.j))return i;}
+  for(let i=0;i<P.length;i++){const p=P[i];
+    if((!r.team||r.team==='Team '+p.t)&&r.name&&(norm(r.name)===norm(p.jn)||norm(r.name)===norm(p.n)))return i;}
+  return -1;
+}
+function build(games){
+  const agg={};
+  for(const g of games)for(const r of g.rows){
+    const i=match(r);const k=i>=0?'p'+i:'x'+(r.team||'')+'|'+norm(r.name)+'|'+norm(r.num);
+    const a=agg[k]||(agg[k]={i,name:i>=0?P[i].n:r.name,team:i>=0?'Team '+P[i].t:(r.team||''),tc:i>=0?TC[P[i].t]:'',g:0,pts:0,reb:0,ast:0,stl:0,eff:0});
+    a.g++;for(const s of ['pts','reb','ast','stl','eff'])a[s]+=+r[s]||0;
+  }
+  return Object.values(agg).map(a=>({...a,pts:a.pts/a.g,reb:a.reb/a.g,ast:a.ast/a.g,stl:a.stl/a.g,eff:a.eff/a.g}));
+}
+function render(games){
+  const all=build(games);
+  if(!all.length){$('out').innerHTML='<div class="empty">The MVP race starts once games are played.<br>Check back after the first games.</div>';return}
+  const maxG=Math.max(...all.map(a=>a.g)), minG=Math.max(1,Math.ceil(maxG/2));
+  const q=all.filter(a=>a.g>=minG).sort((x,y)=>y.eff-x.eff||y.pts-x.pts).slice(0,10);
+  const top=q[0], f=x=>x.toFixed(1);
+  const photo=a=>'<img src="photos/'+slug(a.name)+'.jpg" alt="" onerror="this.remove()">';
+  let h='<div class="leader"><span class="tag">Current MVP Leader</span>'+photo(top)+'<h2>'+esc(top.name)+'</h2><p>'+esc(top.team)+' &middot; '+top.g+' game'+(top.g===1?'':'s')+'</p><div class="stats"><div><b>'+f(top.eff)+'</b><span>EFF</span></div><div><b>'+f(top.pts)+'</b><span>PTS</span></div><div><b>'+f(top.reb)+'</b><span>REB</span></div><div><b>'+f(top.ast)+'</b><span>AST</span></div><div><b>'+f(top.stl)+'</b><span>STL</span></div><div><b>'+top.g+'</b><span>GP</span></div></div></div>';
+  h+='<div class="list"><div class="row hd"><span>#</span><span>Player</span><span class="v">EFF</span><span class="v">PTS</span><span class="v">REB</span><span class="v h2">AST</span><span class="v h2">STL</span></div>';
+  q.forEach((a,r)=>{h+='<div class="row" style="--tc:'+(a.tc||'transparent')+'"><span class="rk">'+(r+1)+'</span><span class="nm"><b>'+esc(a.name)+'</b><small>'+esc(a.team)+' &middot; '+a.g+' GP</small><div class="bar"><i style="width:'+Math.max(4,Math.round(a.eff/top.eff*100))+'%"></i></div></span><span class="v e">'+f(a.eff)+'</span><span class="v">'+f(a.pts)+'</span><span class="v">'+f(a.reb)+'</span><span class="v h2">'+f(a.ast)+'</span><span class="v h2">'+f(a.stl)+'</span></div>'});
+  $('out').innerHTML=h+'</div>';
+  $('note').textContent='Ranked by average efficiency (EFF) per game: points + rebounds + assists + steals + blocks, minus missed shots, missed free throws and turnovers. Players need at least '+minG+' game'+(minG===1?'':'s')+' (half of the most games played) to qualify. All numbers are per-game averages.';
+}
+fetch('season-stats.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>render(j&&j.games?j.games:[])).catch(()=>render([]));
+</script>
+</body>
+</html>
