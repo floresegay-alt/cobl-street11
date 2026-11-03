@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Season Stats Builder | COBL x Street 11</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:760px;margin:0 auto;padding:20px;background:#f6f7fb;color:#0b1330;line-height:1.5}
+@media (prefers-color-scheme:dark){body{background:#070b1f;color:#f4f6ff}.box{background:#0f1633!important;border-color:#222c57!important}}
+h1{font-size:24px;margin:0 0 6px}.box{background:#fff;border:1px solid #dde2f0;border-radius:12px;padding:16px;margin:14px 0}
+button{background:#1b3fd8;color:#fff;border:0;border-radius:8px;padding:10px 18px;font-weight:600;cursor:pointer;font-size:15px}
+select{padding:6px;border-radius:6px}small{opacity:.75}
+</style></head><body>
+<h1>Season Stats Builder</h1>
+<p>Combine each game&rsquo;s <b>game-data.json</b> into one <b>season-stats.json</b> for the Players page. Private tool for the committee. Do not link it on the website.</p>
+<div class="box"><b>1. Choose files</b><br><small>Select this season&rsquo;s game-data.json files (rename each so you can tell them apart). To add a game to existing totals, also select your current season-stats.json.</small><br><br>
+<input type="file" id="f" accept=".json" multiple></div>
+<div class="box" id="games" style="display:none"><b>2. Match each team to its draft team number</b><div id="list"></div></div>
+<div class="box" id="out" style="display:none"><b>3. Download</b><br><br><button id="go">Download season-stats.json</button><p id="msg"></p><small>Upload the downloaded file to your GitHub repo, replacing the old one.</small></div>
+<script>
+const pts=p=>p.fgm2*2+p.fgm3*3+p.ftm+(p.manualPts||0), reb=p=>p.oreb+p.dreb;
+const eff=p=>pts(p)+reb(p)+p.ast+p.stl+p.blk-((p.fga2+p.fga3)-(p.fgm2+p.fgm3))-(p.fta-p.ftm)-p.to;
+let games=[],pending=[];
+document.getElementById('f').onchange=async e=>{
+  games=[];pending=[];
+  for(const f of e.target.files){
+    try{const j=JSON.parse(await f.text());
+      if(j.games){games.push(...j.games)}
+      else if(j.teams){pending.push({file:f.name,j})}
+    }catch(x){alert(f.name+' is not valid JSON')}
+  }
+  const l=document.getElementById('list');l.innerHTML='';
+  pending.forEach((g,i)=>{
+    const d=document.createElement('div');d.style.margin='12px 0';
+    let h='<b>'+g.file+'</b><br>';
+    ['A','B'].forEach(k=>{const n=g.j.teams[k].name;const m=(n.match(/\d+/)||[''])[0];
+      h+=n+' &rarr; <select id="s'+i+k+'"><option value="">(not a draft team, skip)</option>'+[1,2,3,4,5,6,7,8,9,10,11].map(t=>'<option value="Team '+t+'"'+(String(t)===m?' selected':'')+'>Team '+t+'</option>').join('')+'</select> &nbsp; '});
+    d.innerHTML=h;l.appendChild(d)});
+  document.getElementById('games').style.display=pending.length?'block':'none';
+  document.getElementById('out').style.display=(pending.length||games.length)?'block':'none';
+};
+document.getElementById('go').onclick=()=>{
+  pending.forEach((g,i)=>{
+    const rows=[];
+    ['A','B'].forEach(k=>{
+      const team=document.getElementById('s'+i+k).value;
+      for(const p of g.j.teams[k].players){
+        const used=p.secondsPlayed>0||pts(p)+reb(p)+p.ast+p.stl+p.blk+p.to>0;
+        if(!used)continue;
+        rows.push({team,num:String(p.num),name:p.name,pts:pts(p),reb:reb(p),ast:p.ast,stl:p.stl,eff:eff(p),min:Math.floor(p.secondsPlayed/60)});
+      }});
+    const sc=k=>g.j.teams[k].players.reduce((s,p)=>s+pts(p),0);
+    const id=g.j.teams.A.name+' vs '+g.j.teams.B.name+' '+sc('A')+'-'+sc('B');
+    games=games.filter(x=>x.id!==id);
+    games.push({id,rows});
+  });
+  pending=[];
+  const blob=new Blob([JSON.stringify({games})],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='season-stats.json';a.click();
+  document.getElementById('msg').textContent=games.length+' game(s) saved.';
+};
+</script></body></html>
