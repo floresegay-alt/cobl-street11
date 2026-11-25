@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Schedule · COBL x Street 11 Basketball</title>
+<meta property="og:title" content="Schedule · COBL x Street 11 Basketball">
+<meta property="og:description" content="Full Season 3 schedule — regular season, playoffs and finals.">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f7fb;--surface:#fff;--text:#0b1330;--muted:#4b5575;--blue:#1b3fd8;--yellow:#ffd60a;--line:#dde2f0;--hero:#0a1f8f;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#070b1f;--surface:#0f1633;--text:#f4f6ff;--muted:#a8b2d6;--line:#222c57;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#070b1f;--surface:#0f1633;--text:#f4f6ff;--muted:#a8b2d6;--line:#222c57;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Poppins,system-ui,sans-serif;line-height:1.5}
+h1,h2,h3{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.02em;margin:0}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:16px 0;flex-wrap:wrap;gap:10px}
+nav .brand{display:flex;align-items:center;font-family:Anton,Impact,sans-serif;font-size:20px;letter-spacing:.04em}
+nav a{color:inherit;text-decoration:none;font-size:14px;margin-left:16px;opacity:.85}
+nav a:hover{opacity:1}
+.menu{display:none;background:transparent;color:var(--text);border:2px solid var(--line);border-radius:10px;font-size:22px;line-height:1;padding:8px 13px;cursor:pointer}
+.hero{background:linear-gradient(135deg,rgba(10,31,143,.95),rgba(6,17,107,.97));color:#fff;padding:36px 0 48px}
+.hero h1{font-size:clamp(36px,8vw,64px);line-height:1;margin:12px 0 8px}
+.hero h1 span{color:var(--yellow)}
+.hero p{opacity:.9;max-width:560px;margin:0}
+.tag{display:inline-block;background:var(--yellow);color:#0b1330;font-weight:600;font-size:12px;padding:4px 12px;border-radius:99px;letter-spacing:.08em;text-transform:uppercase}
+section{padding:40px 0 60px}
+h2{font-size:28px;margin-bottom:6px}
+h2:after{content:"";display:block;width:48px;height:4px;background:var(--yellow);margin-top:6px}
+.filters,.teams{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.filters button,.teams button{background:var(--surface);border:1px solid var(--line);color:var(--text);font:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:99px;cursor:pointer}
+.filters button.active,.teams button.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.filters button:hover,.teams button:hover{border-color:var(--blue)}
+.teams button{font-size:12px;padding:6px 12px}
+.team-summary{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:18px;display:none}
+.team-summary.show{display:block}
+.team-summary h3{font-size:20px;margin-bottom:6px}
+.team-summary .meta{color:var(--muted);font-size:13px;margin-bottom:10px}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:720px}
+th{text-align:left;padding:12px 14px;background:var(--blue);color:#fff;font-weight:600;white-space:nowrap}
+td{padding:11px 14px;border-top:1px solid var(--line);vertical-align:middle}
+tr:hover td{background:rgba(27,63,216,.06)}
+.gnum{font-family:Anton,Impact,sans-serif;font-size:16px;color:var(--muted);width:40px}
+.matchup{font-weight:600}
+.matchup a{color:var(--blue);text-decoration:none}
+.matchup a:hover{text-decoration:underline}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;background:rgba(27,63,216,.12);color:var(--blue)}
+.badge.playoff{background:rgba(255,214,10,.25);color:#8a6d00}
+.badge.finals{background:rgba(220,38,38,.15);color:#dc2626}
+.badge.semi{background:rgba(13,148,136,.15);color:#0d9488}
+.status{font-size:12px;font-weight:600;color:var(--muted)}
+.time{white-space:nowrap}
+.empty{text-align:center;padding:40px;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-size:13px;text-align:center}
+footer a{color:inherit}
+@media (max-width:760px){
+  .wrap{padding:0 14px}
+  .menu{display:block}
+  nav .links{display:none;flex:1 1 100%;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:6px 10px;margin-top:8px}
+  nav.open .links{display:flex}
+  nav .links a{margin:0;padding:12px 6px;border-bottom:1px solid var(--line)}
+  nav .links a:last-child{border-bottom:0}
+  section{padding:28px 0 40px}
+  h2{font-size:24px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <span class="brand"><a href="index.html" style="margin:0;opacity:1">COBL × Street 11</a></span>
+    <button class="menu" id="menuBtn" aria-label="Menu" aria-expanded="false">☰</button>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="standings.html">Standings</a>
+      <a href="players.html">Players</a>
+      <a href="mvp.html">MVP Race</a>
+      <a href="boxscore.html">Live Stats</a>
+    </div>
+  </nav>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="tag">Season 3 · 2027</span>
+    <h1>Full <span>Schedule</span></h1>
+    <p>Regular season round-robin, quarterfinals, semifinals and championship series. Click a team to see its full schedule.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Games</h2>
+    <p style="color:var(--muted);margin:8px 0 0">77 games · Top 8 advance to playoffs · Best-of-3 from quarterfinals</p>
+
+    <div class="teams" id="teamFilters">
+      <button type="button" data-team="all" class="active">All Teams</button>
+      <button type="button" data-team="1">Green</button>
+      <button type="button" data-team="2">Black</button>
+      <button type="button" data-team="3">White</button>
+      <button type="button" data-team="4">Blue</button>
+      <button type="button" data-team="5">Orange</button>
+      <button type="button" data-team="6">Red</button>
+      <button type="button" data-team="7">Gold</button>
+      <button type="button" data-team="8">Gray</button>
+      <button type="button" data-team="9">Teal</button>
+      <button type="button" data-team="10">Purple</button>
+      <button type="button" data-team="11">Maroon</button>
+    </div>
+
+    <div class="team-summary" id="teamSummary"></div>
+
+    <div class="filters" id="filters">
+      <button type="button" data-f="all" class="active">All Stages</button>
+      <button type="button" data-f="Regular">Regular Season</button>
+      <button type="button" data-f="Quarter">Quarterfinals</button>
+      <button type="button" data-f="Semi">Semifinals</button>
+      <button type="button" data-f="3rd">3rd Place</button>
+      <button type="button" data-f="Final">Finals</button>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Matchup</th>
+            <th>Stage</th>
+            <th>Format</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <p id="count" style="margin-top:12px;font-size:13px;color:var(--muted)"></p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">&copy; 2026 COBL Committee · <a href="index.html">Home</a> · <a href="https://www.facebook.com/profile.php?id=61594905911453" target="_blank" rel="noopener">Facebook</a> · <a href="https://www.youtube.com/channel/UC9Wh_BDRQfl1YL2tYEtq8fA" target="_blank" rel="noopener">YouTube</a></div>
+</footer>
+
+<script>
+(function(){
+  var TEAM_NAMES = {
+    1:"Team 1 - Green",2:"Team 2 - Black",3:"Team 3 - White",4:"Team 4 - Blue",
+    5:"Team 5 - Orange",6:"Team 6 - Red",7:"Team 7 - Gold",8:"Team 8 - Gray",
+    9:"Team 9 - Teal",10:"Team 10 - Purple",11:"Team 11 - Maroon"
+  };
+  var TEAM_SHORT = {1:"Green",2:"Black",3:"White",4:"Blue",5:"Orange",6:"Red",7:"Gold",8:"Gray",9:"Teal",10:"Purple",11:"Maroon"};
+
+  var tbody = document.getElementById('tbody');
+  var countEl = document.getElementById('count');
+  var summaryEl = document.getElementById('teamSummary');
+  var stageFilter = 'all';
+  var teamFilter = 'all';
+  var GAMES = [];
+
+  function badgeClass(stage){
+    if(/Final/i.test(stage)) return 'finals';
+    if(/Semi/i.test(stage)) return 'semi';
+    if(/Quarter|3rd/i.test(stage)) return 'playoff';
+    return '';
+  }
+
+  function linkTeam(id, label){
+    if(!id) return label;
+    return '<a href="players.html?team='+id+'" title="View roster">'+label+'</a>';
+  }
+
+  function formatMatchup(g){
+    if(g.teamA && g.teamB){
+      return linkTeam(g.teamA, TEAM_NAMES[g.teamA]) + ' vs ' + linkTeam(g.teamB, TEAM_NAMES[g.teamB]);
+    }
+    return g.matchup;
+  }
+
+  function filtered(){
+    return GAMES.filter(function(g){
+      if(stageFilter !== 'all'){
+        if(stageFilter === '3rd'){
+          if(g.stage.indexOf('3rd') !== 0) return false;
+        } else if(g.stage.indexOf(stageFilter) !== 0) return false;
+      }
+      if(teamFilter !== 'all'){
+        var tid = parseInt(teamFilter, 10);
+        if(g.teamA !== tid && g.teamB !== tid) return false;
+      }
+      return true;
+    });
+  }
+
+  function renderSummary(){
+    if(teamFilter === 'all'){
+      summaryEl.classList.remove('show');
+      summaryEl.innerHTML = '';
+      return;
+    }
+    var tid = parseInt(teamFilter, 10);
+    var list = GAMES.filter(function(g){ return g.teamA === tid || g.teamB === tid; });
+    var rs = list.filter(function(g){ return /Regular/i.test(g.stage); });
+    summaryEl.innerHTML =
+      '<h3>'+TEAM_NAMES[tid]+'</h3>' +
+      '<div class="meta">'+rs.length+' regular-season games · <a href="players.html?team='+tid+'"><strong>View roster →</strong></a> · <a href="#" data-pick-team="all">Clear filter</a></div>' +
+      '<div style="font-size:13px;color:var(--muted)">Click a team name in the table to open that team\'s players. Filter chips above still filter this schedule.</div>';
+    summaryEl.classList.add('show');
+  }
+
+  function render(){
+    var list = filtered();
+    renderSummary();
+    if(!list.length){
+      tbody.innerHTML = '<tr><td colspan="7" class="empty">No games match this filter.</td></tr>';
+      countEl.textContent = '';
+      return;
+    }
+    tbody.innerHTML = list.map(function(g){
+      var bc = badgeClass(g.stage);
+      return '<tr>' +
+        '<td class="gnum">' + g.num + '</td>' +
+        '<td>' + g.day + '<br><span style="font-size:12px;color:var(--muted)">' + g.date + '</span></td>' +
+        '<td class="time">' + g.time + '</td>' +
+        '<td class="matchup">' + formatMatchup(g) + '</td>' +
+        '<td><span class="badge ' + bc + '">' + g.stage.replace('Regular Season - ','') + '</span></td>' +
+        '<td>' + g.format + '</td>' +
+        '<td class="status">' + g.status + '</td>' +
+        '</tr>';
+    }).join('');
+    countEl.textContent = 'Showing ' + list.length + ' of ' + GAMES.length + ' games';
+  }
+
+  function setTeam(id){
+    teamFilter = String(id);
+    document.querySelectorAll('#teamFilters button').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-team') === teamFilter);
+    });
+    render();
+  }
+
+  document.getElementById('filters').addEventListener('click', function(e){
+    var btn = e.target.closest('button');
+    if(!btn) return;
+    stageFilter = btn.getAttribute('data-f');
+    document.querySelectorAll('#filters button').forEach(function(b){ b.classList.toggle('active', b === btn); });
+    render();
+  });
+
+  document.getElementById('teamFilters').addEventListener('click', function(e){
+    var btn = e.target.closest('button');
+    if(!btn) return;
+    setTeam(btn.getAttribute('data-team'));
+  });
+
+  document.body.addEventListener('click', function(e){
+    var a = e.target.closest('[data-pick-team]');
+    if(!a) return;
+    e.preventDefault();
+    setTeam(a.getAttribute('data-pick-team'));
+  });
+
+  var b = document.getElementById('menuBtn'), n = document.querySelector('nav');
+  if(b && n){
+    b.addEventListener('click', function(){ var o = n.classList.toggle('open'); b.setAttribute('aria-expanded', o); });
+  }
+
+  // Support ?team=3 deep link
+  var params = new URLSearchParams(location.search);
+  if(params.get('team')) teamFilter = params.get('team');
+
+  fetch('schedule.json?t=' + Date.now(), {cache:'no-store'})
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(j){
+      if(j && j.games){
+        GAMES = j.games;
+        document.querySelectorAll('#teamFilters button').forEach(function(b){
+          b.classList.toggle('active', b.getAttribute('data-team') === teamFilter);
+        });
+        render();
+      } else {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty">Schedule data not found.</td></tr>';
+      }
+    })
+    .catch(function(){ tbody.innerHTML = '<tr><td colspan="7" class="empty">Could not load schedule.</td></tr>'; });
+})();
+</script>
+</body>
+</html>
