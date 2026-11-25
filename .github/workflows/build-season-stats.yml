@@ -1,0 +1,81 @@
+name: Build Season Stats
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'games/**'
+      - 'tools/build_season_stats.py'
+      - '.github/workflows/build-season-stats.yml'
+  workflow_dispatch:
+    inputs:
+      update_schedule:
+        description: 'Also update schedule.json scores'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Ensure folders
+        run: |
+          mkdir -p games tools
+          ls -la games || true
+
+      - name: Count game files
+        id: count
+        run: |
+          n=$(find games -maxdepth 1 -type f -name '*.json' | wc -l)
+          echo "count=$n" >> "$GITHUB_OUTPUT"
+          echo "Found $n game JSON file(s) in games/"
+
+      - name: Build season-stats.json
+        if: steps.count.outputs.count != '0'
+        run: |
+          EXTRA=""
+          if [ -f season-stats.json ]; then
+            EXTRA="--existing season-stats.json"
+          fi
+          if [ "${{ github.event.inputs.update_schedule }}" = "true" ] && [ -f schedule.json ]; then
+            python tools/build_season_stats.py games $EXTRA -o season-stats.json --update-schedule --schedule schedule.json
+          else
+            python tools/build_season_stats.py games $EXTRA -o season-stats.json
+          fi
+          echo "---- season-stats.json preview ----"
+          python -c "import json;d=json.load(open('season-stats.json'));print(len(d.get('games',[])),'games')"
+
+      - name: Skip (no games)
+        if: steps.count.outputs.count == '0'
+        run: echo "No JSON files in games/ — nothing to build. Add game-data exports into games/ and push."
+
+      - name: Commit and push updates
+        if: steps.count.outputs.count != '0'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add season-stats.json
+          if [ "${{ github.event.inputs.update_schedule }}" = "true" ]; then
+            git add schedule.json || true
+          fi
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: update season-stats.json from games/ [skip ci]"
+            git push
+          fi
