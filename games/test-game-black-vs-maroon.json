@@ -1,0 +1,35 @@
+{
+  "teams": {
+    "A": {
+      "name": "Team 2 - Black",
+      "logo": "2",
+      "players": [
+        {"num": 6, "name": "RAMOS", "onCourt": false, "secondsPlayed": 720, "fgm2": 4, "fga2": 8, "fgm3": 1, "fga3": 3, "ftm": 2, "fta": 2, "oreb": 0, "dreb": 3, "ast": 2, "stl": 0, "blk": 0, "to": 0, "pf": 0, "offFouls": 0, "techFouls": 0, "plusMinus": 0, "manualPts": 0},
+        {"num": 11, "name": "TRAVEL", "onCourt": false, "secondsPlayed": 600, "fgm2": 3, "fga2": 6, "fgm3": 0, "fga3": 0, "ftm": 0, "fta": 0, "oreb": 0, "dreb": 2, "ast": 0, "stl": 1, "blk": 0, "to": 0, "pf": 0, "offFouls": 0, "techFouls": 0, "plusMinus": 0, "manualPts": 0},
+        {"num": 22, "name": "CABATUAN", "onCourt": false, "secondsPlayed": 540, "fgm2": 2, "fga2": 5, "fgm3": 0, "fga3": 1, "ftm": 0, "fta": 0, "oreb": 1, "dreb": 4, "ast": 0, "stl": 0, "blk": 0, "to": 0, "pf": 0, "offFouls": 0, "techFouls": 0, "plusMinus": 0, "manualPts": 0},
+        {"num": 13, "name": "ANDRIE", "onCourt": false, "secondsPlayed": 480, "fgm2": 1, "fga2": 3, "fgm3": 0, "fga3": 0, "ftm": 0, "fta": 0, "oreb": 0, "dreb": 0, "ast": 3, "stl": 0, "blk": 0, "to": 1, "pf": 0, "offFouls": 0, "techFouls": 0, "plusMinus": 0, "manualPts": 0},
+        {"num": 27, "name": "JIBREEL", "onCourt": false, "secondsPlayed": 420, "fgm2": 2, "fga2": 4, "fgm3": 0, "fga3": 0, "ftm": 0, "fta": 0, "oreb": 0, "dreb": 1, "ast": 0, "stl": 0, "blk": 0, "to": 0, "pf": 0, "offFouls": 0, "techFouls": 0, "plusMinus": 0, "manualPts": 0}
+      ],
+      "timeoutsUsed": 1
+    },
+    "B": {
+      "name": "Team 11 - Maroon",
+      "logo": "11",
+      "players": [
+        {"num": 13, "name": "T-REX", "onCourt": false, "secondsPlayed": 700, "fgm2": 5, "fga2": 9, "fgm3": 1, "fga3": 2, "ftm": 1, "fta": 2, "oreb": 0, "dreb": 5, "ast": 0, "stl": 0, "blk": 0, "to": 0, "pf": 0, "offFouls": 0, "techFouls": 0, "plusMinus": 0, "manualPts": 0},
+        {"num": 4, "name": "MCBURN", "onCourt": false, "secondsPlayed": 620, "fgm2": 2, "fga2": 5, "fgm3": 0, "fga3": 0, "ftm": 0, "fta": 0, "oreb": 0, "dreb": 0, "ast": 2, "stl": 2, "blk": 0, "to": 0, "pf": 0, "offFouls": 0, "techFouls": 0, "plusMinus": 0, "manualPts": 0},
+        {"num": 22, "name": "VILLEGAS", "onCourt": false, "secondsPlayed": 580, "fgm2": 3, "fga2": 6, "fgm3": 0, "fga3": 0, "ftm": 0, "fta": 0, "oreb": 2, "dreb": 3, "ast": 0, "stl": 0, "blk": 1, "to": 0, "pf": 0, "offFouls": 0, "techFouls": 0, "plusMinus": 0, "manualPts": 0},
+        {"num": 28, "name": "MIGUELITO", "onCourt": false, "secondsPlayed": 500, "fgm2": 1, "fga2": 4, "fgm3": 0, "fga3": 0, "ftm": 0, "fta": 0, "oreb": 0, "dreb": 2, "ast": 0, "stl": 0, "blk": 0, "to": 0, "pf": 0, "offFouls": 0, "techFouls": 0, "plusMinus": 0, "manualPts": 0},
+        {"num": 12, "name": "PIELAGO", "onCourt": false, "secondsPlayed": 450, "fgm2": 2, "fga2": 3, "fgm3": 0, "fga3": 0, "ftm": 2, "fta": 2, "oreb": 0, "dreb": 0, "ast": 1, "stl": 0, "blk": 0, "to": 0, "pf": 0, "offFouls": 0, "techFouls": 0, "plusMinus": 0, "manualPts": 0}
+      ],
+      "timeoutsUsed": 2
+    }
+  },
+  "clock": 0,
+  "shotClock": 0,
+  "possession": "A",
+  "playByPlay": [],
+  "quarterScores": {"A": [10, 12, 8, 12], "B": [11, 10, 14, 9]},
+  "config": {"test": true, "note": "Sample game for GitHub Actions test"},
+  "gameOver": true
+}
