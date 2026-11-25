@@ -1,0 +1,7 @@
+# Drop each game's Live Stats export here as .json
+# Example: game-2027-01-30-black-vs-maroon.json
+#
+# After you push files in this folder, GitHub Actions will:
+# 1. Build season-stats.json
+# 2. Commit it back to the repo
+# 3. Standings + Players pages update automatically
