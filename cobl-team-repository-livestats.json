@@ -1,1 +1,26 @@
-placeholder
+{
+  "team 11 - maroon": {
+    "name": "Team 11 - Maroon",
+    "logo": "MRN",
+    "logoPicture": null,
+    "players": [
+      {"num": 2, "name": "CALDERON"},
+      {"num": 4, "name": "MCBURN"},
+      {"num": 6, "name": "PADILLA"},
+      {"num": 7, "name": "MIKAIL"},
+      {"num": 10, "name": "GALIMBA"},
+      {"num": 11, "name": "PRADO"},
+      {"num": 11, "name": "CLEMENTE"},
+      {"num": 12, "name": "PIELAGO"},
+      {"num": 13, "name": "T-REX"},
+      {"num": 16, "name": "WILSON"},
+      {"num": 22, "name": "VILLEGAS"},
+      {"num": 29, "name": "JEREMIAH"},
+      {"num": 30, "name": "PARAGAS"},
+      {"num": 35, "name": "JHONCIC"},
+      {"num": 44, "name": "CLEOFE"},
+      {"num": 77, "name": "KIM"}
+    ],
+    "updatedAt": "2026-11-26T00:00:00Z"
+  }
+}
