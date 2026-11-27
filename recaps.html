@@ -2,101 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Game Summaries · COBL x Street 11 Basketball</title>
-<meta property="og:title" content="Game Summaries · COBL x Street 11 Basketball">
-<meta property="og:description" content="COBL x Street 11 Basketball game recaps and highlights.">
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#f6f7fb;--surface:#fff;--text:#0b1330;--muted:#4b5575;--blue:#1b3fd8;--yellow:#ffd60a;--line:#dde2f0;color-scheme:light}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#070b1f;--surface:#0f1633;--text:#f4f6ff;--muted:#a8b2d6;--line:#222c57;color-scheme:dark}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Poppins,system-ui,sans-serif;line-height:1.5}
-h1,h2,h3{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.02em;margin:0}
-.wrap{max-width:900px;margin:0 auto;padding:0 20px}
-nav{display:flex;justify-content:space-between;align-items:center;padding:16px 0;flex-wrap:wrap;gap:10px}
-nav a{color:inherit;text-decoration:none;font-size:14px;margin-left:14px;opacity:.85}
-nav a:hover{opacity:1}
-.hero{background:linear-gradient(135deg,rgba(10,31,143,.95),rgba(6,17,107,.97));color:#fff;padding:36px 0 44px}
-.hero h1{font-size:clamp(32px,7vw,56px);line-height:1;margin:10px 0 8px}
-.hero h1 span{color:var(--yellow)}
-.tag{display:inline-block;background:var(--yellow);color:#0b1330;font-weight:600;font-size:12px;padding:4px 12px;border-radius:99px;letter-spacing:.06em;text-transform:uppercase}
-section{padding:32px 0 50px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:16px}
-.card h2{font-size:22px;margin-bottom:6px}
-.meta{color:var(--muted);font-size:13px;margin-bottom:10px}
-.score{font-family:Anton,Impact,sans-serif;font-size:28px;color:var(--blue);margin:8px 0}
-@media (prefers-color-scheme:dark){.score{color:var(--yellow)}}
-.pog{font-size:14px;margin:8px 0 12px}
-.narrative p{margin:0 0 12px;font-size:15px;line-height:1.65}
-.empty{text-align:center;padding:40px 16px;color:var(--muted)}
-footer{border-top:1px solid var(--line);padding:22px 0;color:var(--muted);font-size:13px;text-align:center}
-footer a{color:inherit}
-</style>
+<meta http-equiv="refresh" content="0;url=results.html">
+<title>Redirecting…</title>
+<link rel="canonical" href="results.html">
 </head>
 <body>
-<div class="wrap">
-  <nav>
-    <span style="font-family:Anton,Impact,sans-serif;letter-spacing:.04em"><a href="index.html" style="margin:0;opacity:1">COBL × Street 11</a></span>
-    <div>
-      <a href="index.html">Home</a>
-      <a href="schedule.html">Schedule</a>
-      <a href="standings.html">Standings</a>
-      <a href="players.html">Players</a>
-      <a href="recaps.html">Summaries</a>
-      <a href="mvp.html">MVP Race</a>
-    </div>
-  </nav>
-</div>
-<header class="hero">
-  <div class="wrap">
-    <span class="tag">Season 3</span>
-    <h1>Game <span>Summaries</span></h1>
-    <p style="opacity:.9;max-width:520px;margin:0">COBL x Street 11 Basketball game recaps — player of the game, key moments, and final scores.</p>
-  </div>
-</header>
-<section>
-  <div class="wrap" id="list">
-    <div class="empty">Loading summaries…</div>
-  </div>
-</section>
-<footer>
-  <div class="wrap">&copy; 2026 COBL Committee · <a href="index.html">Home</a></div>
-</footer>
-<script>
-(function(){
-  const list = document.getElementById('list');
-  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-  fetch('game-recaps.json?t='+Date.now(),{cache:'no-store'})
-    .then(r => r.ok ? r.json() : null)
-    .then(j => {
-      const recaps = (j && j.recaps) ? j.recaps.slice() : [];
-      recaps.sort((a,b) => String(b.date||b.createdAt||'').localeCompare(String(a.date||a.createdAt||'')));
-      if (!recaps.length) {
-        list.innerHTML = '<div class="empty">No game summaries yet.<br><small>After a game, open Live Stats → SUMMARY (password Summary_01) → Publish JSON, then merge into game-recaps.json.</small></div>';
-        return;
-      }
-      list.innerHTML = recaps.map(r => {
-        const pog = r.playerOfGame
-          ? ('<div class="pog">Player of the Game: <b>#'+esc(r.playerOfGame.num)+' '+esc(r.playerOfGame.name)+'</b> ('+esc(r.playerOfGame.team)+') — '
-            + esc(r.playerOfGame.pts)+' PTS · '+esc(r.playerOfGame.reb)+' REB · '+esc(r.playerOfGame.ast)+' AST · '+esc(r.playerOfGame.eff)+' EFF</div>')
-          : '';
-        const paras = (r.narrative && r.narrative.length)
-          ? r.narrative.map(p => '<p>'+esc(p)+'</p>').join('')
-          : (r.text ? '<p>'+esc(r.text).replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>')+'</p>' : '');
-        return '<article class="card">'
-          + '<div class="meta">'+esc(r.dateLabel || r.date || '')+'</div>'
-          + '<h2>'+esc(r.teamA)+' vs '+esc(r.teamB)+'</h2>'
-          + '<div class="score">'+esc(r.scoreA)+' – '+esc(r.scoreB)+'</div>'
-          + pog
-          + '<div class="narrative">'+paras+'</div>'
-          + '</article>';
-      }).join('');
-    })
-    .catch(() => {
-      list.innerHTML = '<div class="empty">Could not load game-recaps.json</div>';
-    });
-})();
-</script>
+<p>Moved to <a href="results.html">Game Summary &amp; Results</a>.</p>
 </body>
 </html>
