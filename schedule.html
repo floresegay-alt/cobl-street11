@@ -30,7 +30,6 @@ nav a:hover{opacity:1}
 table{width:100%;border-collapse:collapse;font-size:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
 th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}
 th{background:var(--bg);font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
-tr:last-child td{border-bottom:0}
 .team-link{color:var(--blue);font-weight:600}
 @media (prefers-color-scheme:dark){.team-link{color:var(--yellow)}}
 .team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:8px}
@@ -44,6 +43,11 @@ tr:last-child td{border-bottom:0}
 .team-card li:last-child{border-bottom:0}
 .team-card .when{color:var(--muted);font-size:11px;line-height:1.3}
 .team-card .vs{font-weight:600}
+.wl{display:inline-block;font-size:11px;font-weight:800;padding:1px 6px;border-radius:4px;margin-right:4px}
+.wl.win{background:#dcfce7;color:#15803d}
+.wl.loss{background:#fee2e2;color:#b91c1c}
+.wl.tie{background:#e5e7eb;color:#4b5563}
+@media (prefers-color-scheme:dark){.wl.win{background:rgba(21,128,61,.25);color:#86efac}.wl.loss{background:rgba(185,28,28,.25);color:#fca5a5}.wl.tie{background:rgba(75,85,99,.35);color:#d1d5db}}
 .note{color:var(--muted);font-size:13px;margin:8px 0 16px}
 footer{text-align:center;padding:24px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:28px}
 </style>
@@ -80,7 +84,7 @@ footer{text-align:center;padding:24px;color:var(--muted);font-size:13px;border-t
     <div id="table-wrap"><p class="note">Loading schedule…</p></div>
   </div>
   <div id="panel-teams" class="panel">
-    <p class="note">Each card lists that team’s games (date, time, opponent). Click the team name for the players page.</p>
+    <p class="note">Each card lists that team’s games with <strong>vs</strong> and W/L when a score is available.</p>
     <div class="team-grid" id="teamGrid"><p class="note">Loading…</p></div>
   </div>
 </section>
@@ -144,11 +148,19 @@ function renderTeamSummaries(){
       const ids=parseTeamIds(g);
       const oppId=ids.a===+id?ids.b:ids.a;
       const opp=teamName(oppId);
-      const home=ids.a===+id;
       const when=esc(g.date||'')+(g.day?' · '+esc(g.day):'')+'<br>'+esc(g.time||'')+(g.stage?' · '+esc(g.stage):'');
-      const vs=(home?'vs ':'@ ')+'<a class="team-link" href="players.html?team='+oppId+'">'+esc(opp)+'</a>';
-      const score=(g.scoreA!=null&&g.scoreB!=null)?(' <span style="color:var(--muted)">('+(ids.a===+id?g.scoreA:g.scoreB)+'-'+(ids.a===+id?g.scoreB:g.scoreA)+')</span>'):'';
-      return '<li><div class="when">'+when+'</div><div class="vs">'+vs+score+'</div></li>';
+      const vs='vs <a class="team-link" href="players.html?team='+oppId+'">'+esc(opp)+'</a>';
+      let result='';
+      if(g.scoreA!=null&&g.scoreB!=null){
+        const myScore=ids.a===+id?g.scoreA:g.scoreB;
+        const oppScore=ids.a===+id?g.scoreB:g.scoreA;
+        let wl='';
+        if(myScore>oppScore) wl='<span class="wl win">W</span>';
+        else if(myScore<oppScore) wl='<span class="wl loss">L</span>';
+        else wl='<span class="wl tie">T</span>';
+        result=' '+wl+' <span style="color:var(--muted)">('+myScore+'-'+oppScore+')</span>';
+      }
+      return '<li><div class="when">'+when+'</div><div class="vs">'+vs+result+'</div></li>';
     }).join('');
     if(!lis) lis='<li><div class="when">—</div><div class="vs">No games listed</div></li>';
     return '<article class="team-card"><h3><a href="players.html?team='+id+'">'+esc(name)+'</a></h3><div class="count">'+games.length+' game'+(games.length===1?'':'s')+'</div><ul>'+lis+'</ul></article>';
