@@ -51,10 +51,8 @@ table.bs tr.pog-row td.name .pog-tag{color:#b45309;font-size:10px;font-weight:80
 .res-score{font-family:Anton,Impact,sans-serif;font-size:28px;text-align:center;min-width:90px;color:var(--blue)}
 @media (prefers-color-scheme:dark){.res-score{color:var(--yellow)}}
 .res-date{font-size:12px;color:var(--muted);margin-bottom:6px}
-.res-pog-line{font-size:13px;font-weight:600;color:#b45309;margin:4px 0 10px}
 .empty{text-align:center;padding:48px 16px;color:var(--muted)}
 footer{border-top:1px solid var(--line);padding:22px 0;color:var(--muted);font-size:13px;text-align:center;margin-top:20px}
-footer a{color:inherit}
 </style>
 </head>
 <body>
@@ -110,17 +108,6 @@ footer a{color:inherit}
     const pog=r.playerOfGame; if(!pog||!p) return false;
     return String(pog.num)===String(p.num) && String(pog.name).toLowerCase()===String(p.name).toLowerCase();
   }
-  function pogFullText(r){
-    const pog=r.playerOfGame; if(!pog) return '';
-    const parts=['Player of the Game: #'+pog.num+' '+pog.name+' ('+pog.team+')'];
-    const line=[];
-    if(pog.pts!=null) line.push(pog.pts+' PTS');
-    if(pog.reb!=null) line.push(pog.reb+' REB');
-    if(pog.ast!=null) line.push(pog.ast+' AST');
-    if(pog.eff!=null) line.push(pog.eff+' EFF');
-    if(line.length) parts.push(line.join(' · '));
-    return parts.join(' — ');
-  }
   function boxTable(r,side,teamName){
     const rows=(r.boxscore&&r.boxscore[side])?r.boxscore[side]:[];
     if(!rows.length){
@@ -143,8 +130,7 @@ footer a{color:inherit}
     if(!list.length){el.innerHTML='<div class="empty">No results yet.</div>';return;}
     el.innerHTML=list.map(r=>{
       const wA=r.winner&&r.winner===r.teamA, wB=r.winner&&r.winner===r.teamB;
-      const pogLine=r.playerOfGame?('<div class="res-pog-line">'+esc(pogFullText(r))+'</div>'):'';
-      return '<div class="game-block"><div class="res-date">'+esc(r.dateLabel||r.date||'')+(r.winner?' · <span class="winner">W: '+esc(r.winner)+'</span>':'')+'</div><div class="res-head"><div class="res-team'+(wA?' w':'')+'">'+esc(r.teamA)+(wA?' ✓':'')+'</div><div class="res-score">'+esc(r.scoreA)+' – '+esc(r.scoreB)+'</div><div class="res-team'+(wB?' w':'')+'" style="text-align:right">'+esc(r.teamB)+(wB?' ✓':'')+'</div></div>'+pogLine+boxTable(r,'A',r.teamA)+boxTable(r,'B',r.teamB)+'</div>';
+      return '<div class="game-block"><div class="res-date">'+esc(r.dateLabel||r.date||'')+(r.winner?' · <span class="winner">W: '+esc(r.winner)+'</span>':'')+'</div><div class="res-head"><div class="res-team'+(wA?' w':'')+'">'+esc(r.teamA)+(wA?' ✓':'')+'</div><div class="res-score">'+esc(r.scoreA)+' – '+esc(r.scoreB)+'</div><div class="res-team'+(wB?' w':'')+'" style="text-align:right">'+esc(r.teamB)+(wB?' ✓':'')+'</div></div>'+boxTable(r,'A',r.teamA)+boxTable(r,'B',r.teamB)+'</div>';
     }).join('');
   }
   function renderSummaries(){
