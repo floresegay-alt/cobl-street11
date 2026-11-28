@@ -13,11 +13,11 @@
   h1,h2,h3{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.02em;margin:0}
   .wrap{max-width:1000px;margin:0 auto;padding:0 20px}
   
-  /* Navbar */
+  /* Navbar - Updated to match your website */
   nav{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);margin-bottom:28px}
   nav b{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:22px;letter-spacing:.04em;color:var(--blue)}
-  nav a{color:var(--text);text-decoration:none;font-size:14px;margin-left:18px;font-weight:600}
-  nav a.active{color:var(--blue)}
+  nav a{color:var(--text);text-decoration:none;font-size:14px;margin-left:16px;font-weight:600;opacity:0.85}
+  nav a:hover, nav a.active{color:var(--blue);opacity:1}
 
   h1{font-size:38px;margin-bottom:8px}
   h1:after{content:"";display:block;width:56px;height:5px;background:var(--yellow);margin-top:8px}
@@ -65,12 +65,15 @@
   <nav>
     <b>COBL × Street 11</b>
     <div>
-      <a href="index.html">Home</a>
-      <a href="schedule.html">Schedule</a>
-      <a href="results.html">Results</a>
-      <a href="standings.html">Standings</a>
-      <a href="season.html">Races</a>
+      <a href="index.html">Schedule</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#season3">Season 3</a>
+      <a href="index.html#format">Format</a>
+      <a href="season.html">MVP</a>
       <a href="players.html" class="active">Players</a>
+      <a href="standings.html">Standings</a>
+      <a href="index.html#join">Join</a>
+      <a href="https://facebook.com" target="_blank">Facebook</a>
     </div>
   </nav>
 
@@ -108,7 +111,6 @@
     return;
   }
 
-  // Combine stats so players who are rookies don't show up twice
   const statsByKey = {};
   for (const row of season.mvp) statsByKey[`${row.team}::${row.number}`] = row;
 
@@ -150,13 +152,12 @@
     }).join('');
   }
   
-  // Modal Logic
   window.showStats = function(team, number) {
     const key = `${team}::${number}`;
     const stat = statsByKey[key];
     const p = entries.find(x => x.team === team && x.number === number);
     
-    let statsHTML = '<p style="color:var(--muted);text-align:center;">No game statistics recorded yet.</p>';
+    let statsHTML = '<p style="color:var(--muted);text-align:center;padding:20px 0;">No game statistics recorded yet.</p>';
     
     if (stat) {
       statsHTML = `
@@ -168,8 +169,8 @@
           <div class="mstat"><b>${stat.stl}</b><span>Steals</span></div>
           <div class="mstat"><b>${stat.eff}</b><span>Efficiency</span></div>
         </div>
-        <div style="text-align:center;margin-top:20px;font-size:13px;color:var(--muted)">
-          Averages per game: ${(stat.pts/stat.gp).toFixed(1)} PPG, ${(stat.reb/stat.gp).toFixed(1)} RPG, ${(stat.ast/stat.gp).toFixed(1)} APG
+        <div style="text-align:center;margin-top:20px;font-size:13px;color:var(--muted);background:var(--bg);padding:10px;border-radius:8px;">
+          Averages per game: <br><b>${(stat.pts/stat.gp).toFixed(1)}</b> PPG, <b>${(stat.reb/stat.gp).toFixed(1)}</b> RPG, <b>${(stat.ast/stat.gp).toFixed(1)}</b> APG
         </div>
       `;
     }
