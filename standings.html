@@ -151,13 +151,18 @@
   // Calculate Quotient
   const rows = Object.values(table).map(t => {
     t.pd = t.pf - t.pa;
-    // Tiebreaker Formula: PF / PA
-    t.quotient = t.pa === 0 ? (t.pf > 0 ? 999 : 0) : +(t.pf / t.pa).toFixed(3);
+    // Tiebreaker Formula: PF / PA (Only calculate if a game has been played)
+    t.quotient = t.gp === 0 || t.pa === 0 ? 0 : +(t.pf / t.pa).toFixed(3);
     return t;
   });
 
-  // Sort by PTS, then Quotient, then PD
-  rows.sort((a, b) => b.pts - a.pts || b.quotient - a.quotient || b.pd - a.pd || a.team.localeCompare(b.team));
+  // Sort by PTS, then Quotient, then PD, then Natural Team Number
+  rows.sort((a, b) => {
+    if (b.pts !== a.pts) return b.pts - a.pts;
+    if (b.quotient !== a.quotient) return b.quotient - a.quotient;
+    if (b.pd !== a.pd) return b.pd - a.pd;
+    return a.team.localeCompare(b.team, undefined, { numeric: true });
+  });
 
   // Roster Modal logic
   const rosters = {};
@@ -229,8 +234,8 @@
               <td>${r.gp}</td>
               <td>${r.wins}</td>
               <td>${r.losses}</td>
-              <td>${r.pf > 0 ? r.pf : ''}</td>
-              <td>${r.pa > 0 ? r.pa : ''}</td>
+              <td>${r.gp > 0 ? r.pf : ''}</td>
+              <td>${r.gp > 0 ? r.pa : ''}</td>
               <td>${r.gp > 0 ? (r.pd > 0 ? '+' + r.pd : r.pd) : ''}</td>
               <td>${r.gp > 0 ? r.quotient.toFixed(3) : ''}</td>
               <td>${r.pts}</td>
