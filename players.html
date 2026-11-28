@@ -3,32 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Players · COBL × Street 11</title>
+<title>Player Profiles · COBL × Street 11</title>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#f6f7fb;--surface:#fff;--text:#0b1330;--muted:#4b5575;--blue:#1b3fd8;--yellow:#ffd60a;--line:#dde2f0;--hero:#0a1f8f}
+  :root{--bg:#f6f7fb;--surface:#fff;--text:#0b1330;--muted:#4b5575;--blue:#1b3fd8;--yellow:#ffd60a;--line:#dde2f0;--hero:#0a1f8f;--win:#22c55e;--gold:#f59e0b}
   @media (prefers-color-scheme:dark){:root{--bg:#070b1f;--surface:#0f1633;--text:#f4f6ff;--muted:#a8b2d6;--line:#222c57}}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--text);font-family:Poppins,system-ui,sans-serif;line-height:1.6}
   h1,h2,h3{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.02em;margin:0}
-  .wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 20px 60px}
   
-  /* Navbar - Updated to match your website */
-  nav{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);margin-bottom:28px}
+  /* Navbar */
+  nav{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);margin-bottom:32px}
   nav b{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:22px;letter-spacing:.04em;color:var(--blue)}
   nav a{color:var(--text);text-decoration:none;font-size:14px;margin-left:16px;font-weight:600;opacity:0.85}
   nav a:hover, nav a.active{color:var(--blue);opacity:1}
 
   h1{font-size:38px;margin-bottom:8px}
   h1:after{content:"";display:block;width:56px;height:5px;background:var(--yellow);margin-top:8px}
-  .sub{color:var(--muted);margin-bottom:24px}
+  .sub{color:var(--muted);margin-bottom:28px}
   
   /* Filters */
   .filters{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
   .filters input,.filters select{background:var(--surface);border:1px solid var(--line);border-radius:8px;color:var(--text);padding:10px 14px;font:inherit;font-family:Poppins}
   
   /* Grid */
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
   .pcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:transform .2s, box-shadow .2s;box-shadow:0 4px 12px rgba(0,0,0,0.05)}
   .pcard:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(27,63,216,0.15);border-color:var(--blue)}
   
@@ -36,24 +36,35 @@
   .pcard .head img{width:100%;height:100%;object-fit:cover;display:block}
   .pcard .placeholder{color:rgba(255,255,255,0.2);font-family:Anton;font-size:64px}
   
-  .pcard .rookie{position:absolute;top:12px;left:12px;background:var(--yellow);color:var(--text);font-size:11px;font-weight:800;letter-spacing:.06em;padding:4px 10px;border-radius:99px;text-transform:uppercase;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+  .pcard .rookie{position:absolute;top:10px;left:10px;background:var(--yellow);color:var(--text);font-size:10px;font-weight:800;letter-spacing:.06em;padding:3px 8px;border-radius:99px;text-transform:uppercase;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
   
-  .pcard .body{padding:16px;text-align:center}
+  .pcard .body{padding:14px;text-align:center}
   .pcard .num{font-family:Anton;color:var(--blue);font-size:16px;letter-spacing:1px}
-  .pcard .nm{font-weight:700;font-size:18px;margin:4px 0;line-height:1.2}
-  .pcard .tm{color:var(--muted);font-size:13px}
+  .pcard .nm{font-weight:700;font-size:16px;margin:4px 0;line-height:1.2}
+  .pcard .tm{color:var(--muted);font-size:12px}
   
   /* Modal */
-  #modal{position:fixed;inset:0;background:rgba(11,19,48,0.8);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
+  #modal{position:fixed;inset:0;background:rgba(11,19,48,0.85);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
   #modal.show{display:flex}
-  .mcard{background:var(--surface);border-radius:20px;max-width:400px;width:100%;overflow:hidden;border:4px solid var(--blue);box-shadow:0 20px 40px rgba(0,0,0,0.4);position:relative}
-  .mclose{position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.5);color:#fff;border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-  .mhead{background:var(--hero);padding:30px 20px;text-align:center;color:#fff}
-  .mhead .num{font-family:Anton;font-size:20px;color:var(--yellow);letter-spacing:1px}
-  .mhead h2{font-size:32px;margin:4px 0;line-height:1.1}
-  .mhead .tm{font-size:14px;opacity:0.8}
+  .mcard{background:var(--surface);border-radius:20px;max-width:420px;width:100%;overflow:hidden;border:4px solid var(--blue);box-shadow:0 20px 40px rgba(0,0,0,0.5);position:relative}
+  .mclose{position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.6);color:#fff;border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:background 0.2s}
+  .mclose:hover{background:var(--blue)}
+  
+  /* Header with Photo & Logo */
+  .mhead{background:var(--hero);padding:30px 20px 20px;text-align:center;color:#fff;display:flex;flex-direction:column;align-items:center;position:relative}
+  
+  .mphoto-wrap{position:relative;margin-bottom:12px}
+  .mphoto{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid var(--yellow);background:var(--surface);display:flex;align-items:center;justify-content:center;font-family:Anton;font-size:42px;color:var(--blue);box-shadow:0 8px 20px rgba(0,0,0,0.3)}
+  
+  .mlogo{position:absolute;bottom:0;right:-10px;width:44px;height:44px;border-radius:50%;object-fit:contain;background:#fff;border:2px solid var(--line);padding:4px;box-shadow:0 4px 10px rgba(0,0,0,0.3)}
+  
+  .mhead h2{font-size:28px;margin:4px 0;line-height:1.1;color:var(--yellow)}
+  .mhead .num-badge{background:var(--yellow);color:var(--text);font-family:Anton;font-size:14px;padding:2px 10px;border-radius:99px;letter-spacing:1px;margin-bottom:8px}
+  .mhead .tm{font-size:14px;opacity:0.8;font-weight:600;letter-spacing:0.5px}
+  
+  /* Body Stats */
   .mbody{padding:20px}
-  .mstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+  .mstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   .mstat{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;text-align:center}
   .mstat b{display:block;font-family:Anton;font-size:24px;color:var(--blue);line-height:1.1;margin-bottom:4px}
   .mstat span{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px}
@@ -66,14 +77,10 @@
     <b>COBL × Street 11</b>
     <div>
       <a href="index.html">Schedule</a>
-      <a href="index.html#about">About</a>
-      <a href="index.html#season3">Season 3</a>
-      <a href="index.html#format">Format</a>
-      <a href="season.html">MVP</a>
-      <a href="players.html" class="active">Players</a>
+      <a href="results.html">Results</a>
       <a href="standings.html">Standings</a>
-      <a href="index.html#join">Join</a>
-      <a href="https://facebook.com" target="_blank">Facebook</a>
+      <a href="season.html">Season Races</a>
+      <a href="players.html" class="active">Players</a>
     </div>
   </nav>
 
@@ -120,6 +127,12 @@
     return;
   }
 
+  // Find team logos if you added a "logo" field to any player on that team
+  const teamLogos = {};
+  entries.forEach(p => {
+    if (p.logo) teamLogos[p.team] = p.logo;
+  });
+
   const teams = [...new Set(entries.map(p => p.team))].sort();
   $('teamFilter').innerHTML = '<option value="">All Teams</option>' +
     teams.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('');
@@ -156,8 +169,9 @@
     const key = `${team}::${number}`;
     const stat = statsByKey[key];
     const p = entries.find(x => x.team === team && x.number === number);
+    const logo = teamLogos[team];
     
-    let statsHTML = '<p style="color:var(--muted);text-align:center;padding:20px 0;">No game statistics recorded yet.</p>';
+    let statsHTML = '<p style="color:var(--muted);text-align:center;padding:10px 0;">No game statistics recorded yet.</p>';
     
     if (stat) {
       statsHTML = `
@@ -169,16 +183,30 @@
           <div class="mstat"><b>${stat.stl}</b><span>Steals</span></div>
           <div class="mstat"><b>${stat.eff}</b><span>Efficiency</span></div>
         </div>
-        <div style="text-align:center;margin-top:20px;font-size:13px;color:var(--muted);background:var(--bg);padding:10px;border-radius:8px;">
-          Averages per game: <br><b>${(stat.pts/stat.gp).toFixed(1)}</b> PPG, <b>${(stat.reb/stat.gp).toFixed(1)}</b> RPG, <b>${(stat.ast/stat.gp).toFixed(1)}</b> APG
+        <div style="text-align:center;margin-top:16px;font-size:13px;color:var(--muted);background:var(--bg);padding:10px;border-radius:8px;">
+          Averages: <b>${(stat.pts/stat.gp).toFixed(1)}</b> PPG, <b>${(stat.reb/stat.gp).toFixed(1)}</b> RPG, <b>${(stat.ast/stat.gp).toFixed(1)}</b> APG
         </div>
       `;
     }
 
+    // Build the player photo (or # placeholder)
+    const photoHTML = p && p.photo 
+      ? `<img src="${esc(p.photo)}" class="mphoto" alt="${esc(p.name)}">`
+      : `<div class="mphoto">#${esc(number)}</div>`;
+
+    // Build the team logo (if it exists in the database)
+    const logoHTML = logo 
+      ? `<img src="${esc(logo)}" class="mlogo" alt="${esc(team)} logo">`
+      : '';
+
     $('modalContent').innerHTML = `
       <button class="mclose" onclick="document.getElementById('modal').classList.remove('show')">✕</button>
       <div class="mhead">
-        <div class="num">#${esc(number)}</div>
+        <div class="mphoto-wrap">
+          ${photoHTML}
+          ${logoHTML}
+        </div>
+        <div class="num-badge">#${esc(number)}</div>
         <h2>${esc(p ? p.name : 'Unknown')}</h2>
         <div class="tm">${esc(team)}</div>
       </div>
