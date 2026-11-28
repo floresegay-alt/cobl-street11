@@ -6,60 +6,74 @@
 <title>Standings · COBL × Street 11</title>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#f6f7fb;--surface:#fff;--text:#0b1330;--muted:#4b5575;--blue:#1b3fd8;--yellow:#ffd60a;--line:#dde2f0;--hero:#0a1f8f}
-  @media (prefers-color-scheme:dark){:root{--bg:#070b1f;--surface:#0f1633;--text:#f4f6ff;--muted:#a8b2d6;--line:#222c57}}
+  :root{--bg:#f6f7fb;--surface:#fff;--text:#0b1330;--muted:#4b5575;--blue:#1b3fd8;--yellow:#ffd60a;--line:#dde2f0;--hero:#0a1f8f;--header-bg:#1b3fd8}
+  @media (prefers-color-scheme:dark){:root{--bg:#070b1f;--surface:#0f1633;--text:#f4f6ff;--muted:#a8b2d6;--line:#222c57;--header-bg:#1b3fd8}}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--text);font-family:Poppins,system-ui,sans-serif;line-height:1.6}
   h1,h2,h3{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.02em;margin:0}
-  .wrap{max-width:900px;margin:0 auto;padding:0 20px 60px}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 20px 60px}
   
   /* Navbar */
   nav{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);margin-bottom:32px}
   nav b{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:22px;letter-spacing:.04em;color:var(--blue)}
-  nav a{color:var(--text);text-decoration:none;font-size:14px;margin-left:16px;font-weight:600;opacity:0.85}
+  nav .nav-links { display: flex; flex-wrap: wrap; gap: 12px; }
+  nav a{color:var(--text);text-decoration:none;font-size:14px;font-weight:600;opacity:0.85}
   nav a:hover, nav a.active{color:var(--blue);opacity:1}
 
   h1{font-size:38px;margin-bottom:8px}
   h1:after{content:"";display:block;width:56px;height:5px;background:var(--yellow);margin-top:8px}
   .sub{color:var(--muted);margin-bottom:28px}
   
-  /* Table */
-  table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.05)}
-  th,td{padding:14px 12px;text-align:right;border-bottom:1px solid var(--line);font-size:15px}
-  th:first-child,td:first-child{text-align:left}
-  thead th{color:var(--muted);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.06em;background:var(--bg)}
-  tbody tr:last-child td{border-bottom:none}
-  tbody tr:hover td{background:var(--bg)}
+  /* Standings Title Area */
+  .title-box { text-align: center; margin-bottom: 24px; }
+  .title-box h2 { font-size: 32px; color: var(--header-bg); margin: 0; line-height: 1.2; }
+  .title-box p { font-size: 13px; font-style: italic; color: var(--muted); margin-top: 4px; }
   
-  .pos{color:var(--muted);font-weight:800;margin-right:12px}
-  .team{font-family:Anton;font-size:18px;color:var(--blue);letter-spacing:0.5px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:color 0.2s}
-  .team:hover{color:var(--yellow)}
-  .team img{width:28px;height:28px;object-fit:contain;background:#fff;border-radius:50%;padding:2px;border:1px solid var(--line)}
-  .pct{font-weight:700;font-family:monospace;font-size:16px}
+  /* Table */
+  .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; margin-bottom: 32px; }
+  table{width:100%;border-collapse:collapse;min-width: 800px;}
+  th,td{padding:10px 8px;text-align:center;border: 1px solid var(--line);font-size:14px}
+  th:nth-child(1),td:nth-child(1){text-align:left;padding-left:12px}
+  
+  thead th { background: var(--header-bg); color: #fff; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  
+  tbody tr:hover td { background: rgba(27, 63, 216, 0.04); }
+  tbody td { color: var(--text); font-weight: 600; }
+  tbody td.empty-cell { background: #eef1f8; }
+  @media (prefers-color-scheme:dark){ tbody td.empty-cell { background: #1a2138; } }
+
+  .team-name { color: var(--blue); font-weight: 700; cursor: pointer; transition: color 0.2s; display: flex; align-items: center; gap: 8px; }
+  .team-name:hover { color: var(--yellow); }
+  .team-name img { width: 24px; height: 24px; object-fit: contain; background: #fff; border-radius: 50%; padding: 2px; border: 1px solid var(--line); }
+  
+  .note { font-size: 13px; font-style: italic; color: var(--muted); margin-top: -20px; margin-bottom: 40px; }
+
+  /* Info Section */
+  .info-box { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .info-header { background: var(--header-bg); color: #fff; padding: 10px 16px; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .info-content { padding: 20px; font-size: 14px; color: var(--text); }
+  .info-content p { margin-top: 0; }
+  .info-content ol { padding-left: 20px; margin-bottom: 0; }
+  .info-content li { margin-bottom: 12px; }
+  .info-content code { background: var(--bg); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 13px; color: var(--blue); }
   
   .empty{padding:60px 20px;text-align:center;color:var(--muted);font-size:16px;background:var(--surface);border-radius:16px;border:1px dashed var(--line)}
 
-  /* Modal */
-  #modal{position:fixed;inset:0;background:rgba(11,19,48,0.85);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
-  #modal.show{display:flex}
-  .mcard{background:var(--surface);border-radius:20px;max-width:450px;width:100%;overflow:hidden;border:4px solid var(--blue);box-shadow:0 20px 40px rgba(0,0,0,0.5);position:relative;max-height:90vh;display:flex;flex-direction:column}
-  .mclose{position:absolute;top:16px;right:16px;background:rgba(0,0,0,0.5);color:#fff;border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10}
-  .mhead{background:var(--hero);padding:30px 20px;text-align:center;color:#fff;display:flex;flex-direction:column;align-items:center;gap:10px}
-  .mhead img{width:80px;height:80px;object-fit:contain;background:#fff;border-radius:50%;padding:4px;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
-  .mhead h2{font-size:28px;margin:0;line-height:1.1;color:var(--yellow)}
-  .mbody{padding:20px;overflow-y:auto}
-  .roster-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-  .roster-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg);border-radius:10px;border:1px solid var(--line);font-size:15px}
-  .roster-num{font-family:Anton;font-size:18px;color:var(--blue);min-width:32px;text-align:center}
-  .roster-name{font-weight:600;flex:1}
-  .roster-badge{background:var(--yellow);color:var(--text);font-size:10px;font-weight:800;padding:2px 6px;border-radius:4px;text-transform:uppercase}
+  /* Mobile Adjustments */
+  @media (max-width: 768px) {
+    nav { flex-direction: column; align-items: flex-start; gap: 12px; }
+    h1 { font-size: 32px; }
+    .title-box h2 { font-size: 24px; }
+    th, td { padding: 8px 6px; font-size: 12px; }
+    .team-name { font-size: 13px; }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
   <nav>
-    <b>COBL × Street 11 Basketball </b>
-    <div>
+    <b>COBL × Street 11 Basketball</b>
+    <div class="nav-links">
       <a href="index.html">Schedule</a>
       <a href="results.html">Results</a>
       <a href="standings.html" class="active">Standings</a>
@@ -87,7 +101,6 @@
 
   let games = [], players = {};
   try { 
-    // Load games for standings, and players for rosters
     const [g, pRes] = await Promise.all([loadGames(), fetch('data/players.json', { cache: 'no-store' })]);
     games = g; 
     if (pRes.ok) players = await pRes.json();
@@ -96,30 +109,54 @@
     return; 
   }
 
-  const rows = computeStandings(games);
-
-  if (!rows.length){
-    root.innerHTML = '<div class="empty">No completed games yet. Team records will appear here once games are finalized.</div>';
-    return;
-  }
-
-  // We will store the roster data globally so the onclick function can access it
-  const rosters = {};
+  // Extract all unique teams from players.json so they show up even with 0 games
   const teamLogos = {};
+  const allTeams = new Set();
+  Object.values(players).forEach(p => {
+    allTeams.add(p.team);
+    if (p.logo) teamLogos[p.team] = p.logo;
+  });
 
-  // Extract team names directly from the players.json data to ensure they have players even before a game is played
-  const allTeams = new Set([...rows.map(r => r.team), ...Object.values(players).map(p => p.team)]);
-  
+  // Calculate standings
+  const table = {};
+  allTeams.forEach(t => {
+    table[t] = { team: t, gp:0, wins:0, losses:0, pf:0, pa:0, pd:0, quotient:0, pts:0 };
+  });
+
+  games.filter(g => g.status === 'final').forEach(g => {
+    if(!table[g.home]) table[g.home] = { team: g.home, gp:0, wins:0, losses:0, pf:0, pa:0, pd:0, quotient:0, pts:0 };
+    if(!table[g.away]) table[g.away] = { team: g.away, gp:0, wins:0, losses:0, pf:0, pa:0, pd:0, quotient:0, pts:0 };
+    
+    const homeWon = g.homeScore > g.awayScore;
+    
+    table[g.home].gp++; table[g.away].gp++;
+    table[g.home].pf += g.homeScore; table[g.home].pa += g.awayScore;
+    table[g.away].pf += g.awayScore; table[g.away].pa += g.homeScore;
+    
+    if (homeWon) {
+      table[g.home].wins++; table[g.home].pts += 2;
+      table[g.away].losses++; table[g.away].pts += 1;
+    } else {
+      table[g.away].wins++; table[g.away].pts += 2;
+      table[g.home].losses++; table[g.home].pts += 1;
+    }
+  });
+
+  const rows = Object.values(table).map(t => {
+    t.pd = t.pf - t.pa;
+    t.quotient = t.pa === 0 ? (t.pf > 0 ? 999 : 0) : +(t.pf / t.pa).toFixed(3);
+    return t;
+  });
+
+  // Sort by PTS, then Quotient, then PD
+  rows.sort((a, b) => b.pts - a.pts || b.quotient - a.quotient || b.pd - a.pd || a.team.localeCompare(b.team));
+
+  // Roster Modal logic
+  const rosters = {};
   allTeams.forEach(teamName => {
     const teamPlayers = Object.values(players).filter(p => p.team === teamName);
-    // Sort by jersey number
     teamPlayers.sort((a,b) => a.number - b.number);
     rosters[teamName] = teamPlayers;
-    
-    // Find a logo if it exists in your player.json (we will check for a "logo" property later)
-    // For now, it will default to no logo
-    const logoEntry = teamPlayers.find(p => p.logo);
-    if (logoEntry) teamLogos[teamName] = logoEntry.logo;
   });
 
   window.showRoster = function(teamName) {
@@ -127,67 +164,100 @@
     const logo = teamLogos[teamName];
     
     let html = `<button class="mclose" onclick="document.getElementById('modal').classList.remove('show')">✕</button>
-      <div class="mhead">
-        ${logo ? `<img src="${esc(logo)}" alt="${esc(teamName)} logo">` : ''}
-        <h2>${esc(teamName)}</h2>
-        <span style="font-size:13px;opacity:0.8;font-weight:600;letter-spacing:1px;text-transform:uppercase;">${roster.length} Players</span>
+      <div class="mhead" style="background:var(--hero);padding:30px;text-align:center;color:#fff;">
+        ${logo ? `<img src="${esc(logo)}" style="width:80px;height:80px;border-radius:50%;background:#fff;padding:4px;margin-bottom:12px;">` : ''}
+        <h2 style="color:var(--yellow);font-size:28px;margin:0;">${esc(teamName)}</h2>
+        <p style="margin:4px 0 0;opacity:0.8;font-size:13px;">${roster.length} Players</p>
       </div>
-      <div class="mbody">`;
-
-    if (roster.length === 0) {
-      html += `<p style="text-align:center;color:var(--muted);padding:20px 0;">No roster data available yet.</p>`;
-    } else {
-      html += `<ul class="roster-list">
-        ${roster.map(p => `
-          <li class="roster-item">
-            <span class="roster-num">#${esc(p.number)}</span>
-            <span class="roster-name">${esc(p.name)}</span>
-            ${p.rookie ? '<span class="roster-badge">Rookie</span>' : ''}
-          </li>`).join('')}
-      </ul>`;
-    }
-    
-    html += `</div>`;
+      <div style="padding:20px;max-height:60vh;overflow-y:auto;background:var(--surface);">
+        <ul style="list-style:none;padding:0;margin:0;display:grid;gap:8px;">
+          ${roster.map(p => `
+            <li style="display:flex;align-items:center;gap:12px;padding:10px;background:var(--bg);border-radius:8px;border:1px solid var(--line);font-size:15px;">
+              <span style="font-family:Anton;font-size:18px;color:var(--blue);min-width:30px;text-align:center;">#${esc(p.number)}</span>
+              <span style="font-weight:600;flex:1;">${esc(p.name)}</span>
+              ${p.rookie ? '<span style="background:var(--yellow);color:var(--text);font-size:10px;font-weight:800;padding:2px 6px;border-radius:4px;text-transform:uppercase;">Rookie</span>' : ''}
+            </li>`).join('')}
+        </ul>
+      </div>`;
+      
     document.getElementById('modalContent').innerHTML = html;
     document.getElementById('modal').classList.add('show');
   };
 
-  root.innerHTML = `
-    <table>
-      <thead>
-        <tr>
-          <th>Team</th>
-          <th>GP</th>
-          <th>W</th>
-          <th>L</th>
-          <th>PF</th>
-          <th>PA</th>
-          <th>DIFF</th>
-          <th>PCT</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${rows.map((r, i) => `
-          <tr>
-            <td>
-              <span class="pos">${i + 1}</span>
-              <span class="team" onclick="showRoster('${esc(r.team)}')">
-                ${teamLogos[r.team] ? `<img src="${esc(teamLogos[r.team])}" alt="">` : ''}
-                ${esc(r.team)}
-              </span>
-            </td>
-            <td>${r.gp}</td>
-            <td>${r.wins}</td>
-            <td>${r.losses}</td>
-            <td>${r.pf}</td>
-            <td>${r.pa}</td>
-            <td>${r.diff > 0 ? '+' : ''}${r.diff}</td>
-            <td class="pct">${r.winPct.toFixed(3).replace(/^0/, '')}</td>
-          </tr>`).join('')}
-      </tbody>
-    </table>`;
+  // Render HTML
+  let tableHTML = `
+    <div class="title-box">
+      <h2>COBL x Street 11 Basketball SEASON 3 - 11-TEAM STANDINGS & QUOTIENT TIEBREAKER TRACKER</h2>
+      <p>Team names are pulled from Team Setup; fixed Team IDs keep results linked correctly.</p>
+    </div>
 
-  // Close modal when clicking outside
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Team Name</th>
+            <th>GP</th>
+            <th>W</th>
+            <th>L</th>
+            <th>PF</th>
+            <th>PA</th>
+            <th>PD</th>
+            <th>Quotient (PF/PA)</th>
+            <th>PTS</th>
+            <th>Rank</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map((r, i) => `
+            <tr>
+              <td>
+                <div class="team-name" onclick="showRoster('${esc(r.team)}')">
+                  ${teamLogos[r.team] ? `<img src="${esc(teamLogos[r.team])}" alt="">` : ''}
+                  ${esc(r.team)}
+                </div>
+              </td>
+              <td>${r.gp}</td>
+              <td>${r.wins}</td>
+              <td>${r.losses}</td>
+              <td>${r.pf > 0 ? r.pf : ''}</td>
+              <td>${r.pa > 0 ? r.pa : ''}</td>
+              <td>${r.gp > 0 ? (r.pd > 0 ? '+' + r.pd : r.pd) : ''}</td>
+              <td>${r.gp > 0 ? r.quotient.toFixed(3) : ''}</td>
+              <td>${r.pts}</td>
+              <td>${i + 1}</td>
+            </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    <p class="note">* Top 8 teams advance to the Quarterfinals (Best-of-3 Series).</p>
+
+    <div class="info-box">
+      <div class="info-header">HOW TO UPDATE STANDINGS</div>
+      <div class="info-content">
+        <p><em>Enter the final score for each team in the live-stats app. Standings, wins/losses, points for/against, point differential, quotient and rank update automatically for regular-season games.</em></p>
+        <ol>
+          <li style="margin-bottom:0; font-weight:700; color:var(--muted); font-size:12px; text-transform:uppercase;">Tiebreaker Rules</li>
+          <li>Two-Team Tiebreaker: Head-to-Head win-loss record between the tied teams.</li>
+          <li>Multi-Team Tiebreaker (Quotient System): Used when 3 or more teams are tied in Standings Points.
+            <ul style="margin-top:4px;">
+              <li>Formula: Quotient = Total Points For (PF) ÷ Total Points Against (PA).</li>
+              <li>Higher Quotient value gets the higher rank.</li>
+            </ul>
+          </li>
+          <li>Point Differential (PD): Total Points For (PF) - Total Points Against (PA), used as a secondary tiebreaker.</li>
+        </ol>
+        <p style="margin-top:16px; margin-bottom:0; font-size:13px; color:var(--muted);">
+          <strong>PF</strong> (Points For) = total points scored by the team across regular-season games.<br>
+          <strong>PA</strong> (Points Against) = total points allowed across regular-season games.<br>
+          <em>Rank is calculated from PTS, then Quotient. Apply head-to-head and PD manually if a tie remains.</em>
+        </p>
+      </div>
+    </div>
+  `;
+
+  root.innerHTML = tableHTML;
+
+  // Close modal
   document.getElementById('modal').addEventListener('click', (e) => { 
     if (e.target.id === 'modal') document.getElementById('modal').classList.remove('show'); 
   });
