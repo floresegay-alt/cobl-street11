@@ -23,9 +23,17 @@
   h1:after{content:"";display:block;width:56px;height:5px;background:var(--yellow);margin-top:8px}
   .sub{color:var(--muted);margin-bottom:28px}
   
-  /* Filters & Count */
-  .filters{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}
-  .filters input,.filters select{background:var(--surface);border:1px solid var(--line);border-radius:8px;color:var(--text);padding:10px 14px;font:inherit;font-family:Poppins}
+  /* Filters & Buttons */
+  .top-controls { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+  
+  .btn-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .filter-btn { background: var(--surface); border: 2px solid var(--line); color: var(--text); padding: 8px 16px; border-radius: 99px; font-family: Poppins, sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s; }
+  .filter-btn:hover { border-color: var(--blue); color: var(--blue); }
+  
+  /* Active Button Styles */
+  .filter-btn.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+  
+  .search-box { flex: 1; min-width: 250px; background:var(--surface); border:1px solid var(--line); border-radius:8px; color:var(--text); padding:10px 14px; font:inherit; font-family:Poppins; }
   
   .count-text { margin-bottom: 24px; color: var(--muted); font-weight: 600; font-size: 14px; display: block; }
   
@@ -63,8 +71,6 @@
   .mhead h2{font-size:28px;margin:4px 0;line-height:1.1;color:var(--yellow)}
   .mhead .num-badge{background:var(--yellow);color:var(--text);font-family:Anton;font-size:14px;padding:2px 10px;border-radius:99px;letter-spacing:1px;margin-bottom:8px}
   .mhead .tm{font-size:14px;opacity:0.8;font-weight:600;letter-spacing:0.5px}
-  
-  /* Position text in modal */
   .mhead .pos-text { font-size: 13px; font-weight: 700; color: #000; background: var(--yellow); padding: 2px 10px; border-radius: 4px; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
   
   /* Body Stats */
@@ -92,9 +98,15 @@
   <h1>Player Profiles</h1>
   <p class="sub">Season statistics update automatically as games are uploaded.</p>
   
-  <div class="filters">
-    <input id="search" type="search" placeholder="Search player name…" style="flex:1">
-    <select id="teamFilter"><option value="">All Teams</option></select>
+  <div class="top-controls">
+    <input id="search" type="search" class="search-box" placeholder="Search player name…">
+  </div>
+
+  <!-- PILL BUTTON FILTERS -->
+  <div id="filterButtons" class="btn-group">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="rookies">Rookies</button>
+    <!-- Team buttons will be injected here -->
   </div>
   
   <div id="countDisplay" class="count-text">Loading...</div>
@@ -137,17 +149,50 @@
   entries.forEach(p => { if (p.logo) teamLogos[p.team] = p.logo; });
 
   const teams = [...new Set(entries.map(p => p.team))].sort();
-  $('teamFilter').innerHTML = '<option value="">All Teams</option>' +
-    teams.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('');
+  
+  // Define team colors
+  const teamColors = {
+    "Team 1": { bg: "#22c55e", text: "#fff" },       // Green
+    "Team 2": { bg: "#111111", text: "#fff" },       // Black
+    "Team 3": { bg: "#ffffff", text: "#000" },       // White
+    "Team 4": { bg: "#1b3fd8", text: "#fff" },       // Blue
+    "Team 5": { bg: "#f97316", text: "#fff" },       // Orange
+    "Team 6": { bg: "#ef4444", text: "#fff" },       // Red
+    "Team 7": { bg: "#eab308", text: "#000" },       // Gold/Yellow
+    "Team 8": { bg: "#9ca3af", text: "#fff" },       // Gray
+    "Team 9": { bg: "#14b8a6", text: "#fff" },       // Teal
+    "Team 10": { bg: "#a855f7", text: "#fff" },      // Purple
+    "Team 11": { bg: "#800000", text: "#fff" }       // Maroon
+  };
+  
+  // Inject team filter buttons dynamically
+  const btnGroup = $('filterButtons');
+  teams.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn';
+    const shortName = t.split(' - ')[0]; // e.g., "Team 1"
+    btn.dataset.filter = t;
+    btn.dataset.color = shortName; // Store color key
+    btn.textContent = shortName;
+    btnGroup.appendChild(btn);
+  });
+
+  let currentFilter = 'all';
 
   function render(){
     const q = $('search').value.trim().toLowerCase();
-    const team = $('teamFilter').value;
-    const filtered = entries.filter(p =>
-      (!q || (p.name||'').toLowerCase().includes(q)) &&
-      (!team || p.team === team));
+    
+    const filtered = entries.filter(p => {
+      const matchesSearch = !q || (p.name||'').toLowerCase().includes(q);
+      let matchesFilter = false;
       
-    // Update player count
+      if (currentFilter === 'all') matchesFilter = true;
+      else if (currentFilter === 'rookies') matchesFilter = p.rookie === true;
+      else matchesFilter = p.team === currentFilter;
+
+      return matchesSearch && matchesFilter;
+    });
+      
     $('countDisplay').textContent = `Showing ${filtered.length} player${filtered.length === 1 ? '' : 's'}`;
       
     if (!filtered.length){ $('grid').innerHTML = '<div class="empty">No players match.</div>'; return; }
@@ -228,8 +273,35 @@
     $('modal').classList.add('show');
   };
 
+  // Event Listeners for Filter Buttons
+  btnGroup.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('filter-btn')) return;
+    
+    // Remove active class and inline styles from all buttons
+    btnGroup.querySelectorAll('.filter-btn').forEach(b => {
+      b.classList.remove('active');
+      b.style.backgroundColor = '';
+      b.style.borderColor = '';
+      b.style.color = '';
+    });
+    
+    // Add active class to clicked button
+    e.target.classList.add('active');
+    
+    // Apply team color if it's a team button
+    const colorKey = e.target.dataset.color;
+    if (colorKey && teamColors[colorKey]) {
+      const color = teamColors[colorKey];
+      e.target.style.backgroundColor = color.bg;
+      e.target.style.borderColor = color.bg;
+      e.target.style.color = color.text;
+    }
+    
+    currentFilter = e.target.dataset.filter;
+    render();
+  });
+
   $('search').addEventListener('input', render);
-  $('teamFilter').addEventListener('change', render);
   $('modal').addEventListener('click', (e) => { if (e.target.id === 'modal') $('modal').classList.remove('show'); });
   
   render();
