@@ -204,9 +204,12 @@
     if (!filtered.length){ $('grid').innerHTML = '<div class="empty">No players match.</div>'; return; }
     
     $('grid').innerHTML = filtered.map(p => {
+      // AUTO PHOTO DETECT
+      const teamNum = p.team.split(' ')[1]; 
+      const autoPhotoPath = `img/players/${teamNum}-${p.number}.jpg`;
       const photo = p.photo
         ? `<img src="${esc(p.photo)}" alt="${esc(p.name)}" loading="lazy">`
-        : `<div class="placeholder">#${esc(p.number)}</div>`;
+        : `<img src="${esc(autoPhotoPath)}" alt="${esc(p.name)}" loading="lazy" onerror="this.outerHTML='<div class=\\'placeholder\\'>#${esc(p.number)}</div>'">`;
         
       return `<div class="pcard" onclick="showStats('${esc(p.id)}')">
         <div class="head">
@@ -248,9 +251,11 @@
       `;
     }
 
+    const teamNum = p.team.split(' ')[1]; 
+    const autoPhotoPath = `img/players/${teamNum}-${p.number}.jpg`;
     const photoHTML = p.photo 
       ? `<img src="${esc(p.photo)}" class="mphoto" alt="${esc(p.name)}">`
-      : `<div class="mphoto">#${esc(p.number)}</div>`;
+      : `<img src="${esc(autoPhotoPath)}" class="mphoto" alt="${esc(p.name)}" onerror="this.outerHTML='<div class=\\'mphoto\\'>#${esc(p.number)}</div>'">`;
 
     const logoHTML = logo 
       ? `<img src="${esc(logo)}" class="mlogo" alt="${esc(p.team)} logo">`
