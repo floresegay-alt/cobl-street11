@@ -56,7 +56,10 @@
   /* Modal */
   #modal{position:fixed;inset:0;background:rgba(11,19,48,0.85);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
   #modal.show{display:flex}
-  .mcard{background:var(--surface);border-radius:20px;max-width:420px;width:100%;overflow:hidden;border:4px solid var(--blue);box-shadow:0 20px 40px rgba(0,0,0,0.5);position:relative}
+  
+  /* Widened modal card */
+  .mcard{background:var(--surface);border-radius:20px;max-width:550px;width:100%;overflow:hidden;border:4px solid var(--blue);box-shadow:0 20px 40px rgba(0,0,0,0.5);position:relative}
+  
   .mclose{position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.6);color:#fff;border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:background 0.2s}
   .mclose:hover{background:var(--blue)}
   
@@ -64,21 +67,21 @@
   .mhead{background:var(--hero);padding:30px 20px 20px;text-align:center;color:#fff;display:flex;flex-direction:column;align-items:center;position:relative}
   
   .mphoto-wrap{position:relative;margin-bottom:12px}
-  .mphoto{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid var(--yellow);background:var(--surface);display:flex;align-items:center;justify-content:center;font-family:Anton;font-size:42px;color:var(--blue);box-shadow:0 8px 20px rgba(0,0,0,0.3)}
+  .mphoto{width:140px;height:140px;border-radius:50%;object-fit:cover;border:4px solid var(--yellow);background:var(--surface);display:flex;align-items:center;justify-content:center;font-family:Anton;font-size:48px;color:var(--blue);box-shadow:0 8px 20px rgba(0,0,0,0.3)}
   
-  .mlogo{position:absolute;bottom:0;right:-10px;width:44px;height:44px;border-radius:50%;object-fit:contain;background:#fff;border:2px solid var(--line);padding:4px;box-shadow:0 4px 10px rgba(0,0,0,0.3)}
+  .mlogo{position:absolute;bottom:0;right:-10px;width:50px;height:50px;border-radius:50%;object-fit:contain;background:#fff;border:2px solid var(--line);padding:4px;box-shadow:0 4px 10px rgba(0,0,0,0.3)}
   
-  .mhead h2{font-size:28px;margin:4px 0;line-height:1.1;color:var(--yellow)}
+  .mhead h2{font-size:32px;margin:4px 0;line-height:1.1;color:var(--yellow)}
   .mhead .num-badge{background:var(--yellow);color:var(--text);font-family:Anton;font-size:14px;padding:2px 10px;border-radius:99px;letter-spacing:1px;margin-bottom:8px}
-  .mhead .tm{font-size:14px;opacity:0.8;font-weight:600;letter-spacing:0.5px}
-  .mhead .pos-text { font-size: 13px; font-weight: 700; color: #000; background: var(--yellow); padding: 2px 10px; border-radius: 4px; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .mhead .tm{font-size:15px;opacity:0.8;font-weight:600;letter-spacing:0.5px}
+  .mhead .pos-text { font-size: 14px; font-weight: 700; color: #000; background: var(--yellow); padding: 4px 14px; border-radius: 6px; margin-top: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
   
   /* Body Stats */
-  .mbody{padding:20px}
-  .mstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-  .mstat{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;text-align:center}
-  .mstat b{display:block;font-family:Anton;font-size:24px;color:var(--blue);line-height:1.1;margin-bottom:4px}
-  .mstat span{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px}
+  .mbody{padding:24px}
+  .mstats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .mstat{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center}
+  .mstat b{display:block;font-family:Anton;font-size:28px;color:var(--blue);line-height:1.1;margin-bottom:4px}
+  .mstat span{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px}
   .empty{padding:40px;text-align:center;color:var(--muted)}
 </style>
 </head>
@@ -148,7 +151,10 @@
   const teamLogos = {};
   entries.forEach(p => { if (p.logo) teamLogos[p.team] = p.logo; });
 
-  const teams = [...new Set(entries.map(p => p.team))].sort();
+  const teams = [...new Set(entries.map(p => p.team))];
+  
+  // NATURAL SORT: Sorts "Team 2" before "Team 10"
+  teams.sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
   
   // Define team colors
   const teamColors = {
