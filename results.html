@@ -87,7 +87,7 @@
   try { 
     games = await loadGames(); 
   } catch (e) { 
-    root.innerHTML = '<div class="error">Could not load game data. Make sure data/games.json and data/incoming/index.json exist. ' + esc(e.message) + '</div>'; 
+    root.innerHTML = '<div class="error">Could not load game data. ' + esc(e.message) + '</div>'; 
     return; 
   }
 
@@ -95,7 +95,7 @@
                       .sort((a,b) => b.date.localeCompare(a.date));
 
   if (!finals.length){ 
-    root.innerHTML = '<div class="empty">No final games yet. Upload a game to <b>data/incoming/</b> and list it in <b>index.json</b> to see the results!</div>'; 
+    root.innerHTML = '<div class="empty">No game results available yet.</div>'; 
     return; 
   }
 
