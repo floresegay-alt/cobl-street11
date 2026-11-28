@@ -1,7 +1,6 @@
 /* js/app.js — shared loader + standings */
-const DATA_URL     = 'data/games.json';
-const INCOMING_URL = 'data/incoming/index.json';
-const ROOKIES_URL  = 'data/rookies.json';
+
+
 
 async function fetchJson(url){
   const res = await fetch(url, { cache: 'no-store' });
