@@ -26,11 +26,10 @@
   
   /* Standings Title Area */
   .title-box { text-align: center; margin-bottom: 24px; }
-  .title-box h2 { font-size: 32px; color: var(--header-bg); margin: 0; line-height: 1.2; }
-  .title-box p { font-size: 13px; font-style: italic; color: var(--muted); margin-top: 4px; }
+  .title-box h2 { font-size: 28px; color: var(--header-bg); margin: 0; line-height: 1.2; }
   
   /* Table */
-  .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; margin-bottom: 32px; }
+  .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; margin-bottom: 16px; }
   table{width:100%;border-collapse:collapse;min-width: 800px;}
   th,td{padding:10px 8px;text-align:center;border: 1px solid var(--line);font-size:14px}
   th:nth-child(1),td:nth-child(1){text-align:left;padding-left:12px}
@@ -39,31 +38,26 @@
   
   tbody tr:hover td { background: rgba(27, 63, 216, 0.04); }
   tbody td { color: var(--text); font-weight: 600; }
-  tbody td.empty-cell { background: #eef1f8; }
-  @media (prefers-color-scheme:dark){ tbody td.empty-cell { background: #1a2138; } }
 
   .team-name { color: var(--blue); font-weight: 700; cursor: pointer; transition: color 0.2s; display: flex; align-items: center; gap: 8px; }
   .team-name:hover { color: var(--yellow); }
   .team-name img { width: 24px; height: 24px; object-fit: contain; background: #fff; border-radius: 50%; padding: 2px; border: 1px solid var(--line); }
   
-  .note { font-size: 13px; font-style: italic; color: var(--muted); margin-top: -20px; margin-bottom: 40px; }
+  .note { font-size: 13px; font-style: italic; color: var(--muted); margin-top: 0; margin-bottom: 40px; }
 
-  /* Info Section */
-  .info-box { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
-  .info-header { background: var(--header-bg); color: #fff; padding: 10px 16px; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .info-content { padding: 20px; font-size: 14px; color: var(--text); }
-  .info-content p { margin-top: 0; }
-  .info-content ol { padding-left: 20px; margin-bottom: 0; }
-  .info-content li { margin-bottom: 12px; }
-  .info-content code { background: var(--bg); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 13px; color: var(--blue); }
-  
   .empty{padding:60px 20px;text-align:center;color:var(--muted);font-size:16px;background:var(--surface);border-radius:16px;border:1px dashed var(--line)}
+
+  /* Modal */
+  #modal{position:fixed;inset:0;background:rgba(11,19,48,0.85);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
+  #modal.show{display:flex}
+  .mcard{background:var(--surface);border-radius:20px;max-width:450px;width:100%;overflow:hidden;border:4px solid var(--blue);box-shadow:0 20px 40px rgba(0,0,0,0.5);position:relative;max-height:90vh;display:flex;flex-direction:column}
+  .mclose{position:absolute;top:16px;right:16px;background:rgba(0,0,0,0.5);color:#fff;border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10}
 
   /* Mobile Adjustments */
   @media (max-width: 768px) {
     nav { flex-direction: column; align-items: flex-start; gap: 12px; }
     h1 { font-size: 32px; }
-    .title-box h2 { font-size: 24px; }
+    .title-box h2 { font-size: 20px; }
     th, td { padding: 8px 6px; font-size: 12px; }
     .team-name { font-size: 13px; }
   }
@@ -188,7 +182,6 @@
   let tableHTML = `
     <div class="title-box">
       <h2>COBL x Street 11 Basketball SEASON 3 - 11-TEAM STANDINGS & QUOTIENT TIEBREAKER TRACKER</h2>
-      <p>Team names are pulled from Team Setup; fixed Team IDs keep results linked correctly.</p>
     </div>
 
     <div class="table-wrap">
@@ -230,29 +223,6 @@
       </table>
     </div>
     <p class="note">* Top 8 teams advance to the Quarterfinals (Best-of-3 Series).</p>
-
-    <div class="info-box">
-      <div class="info-header">HOW TO UPDATE STANDINGS</div>
-      <div class="info-content">
-        <p><em>Enter the final score for each team in the live-stats app. Standings, wins/losses, points for/against, point differential, quotient and rank update automatically for regular-season games.</em></p>
-        <ol>
-          <li style="margin-bottom:0; font-weight:700; color:var(--muted); font-size:12px; text-transform:uppercase;">Tiebreaker Rules</li>
-          <li>Two-Team Tiebreaker: Head-to-Head win-loss record between the tied teams.</li>
-          <li>Multi-Team Tiebreaker (Quotient System): Used when 3 or more teams are tied in Standings Points.
-            <ul style="margin-top:4px;">
-              <li>Formula: Quotient = Total Points For (PF) ÷ Total Points Against (PA).</li>
-              <li>Higher Quotient value gets the higher rank.</li>
-            </ul>
-          </li>
-          <li>Point Differential (PD): Total Points For (PF) - Total Points Against (PA), used as a secondary tiebreaker.</li>
-        </ol>
-        <p style="margin-top:16px; margin-bottom:0; font-size:13px; color:var(--muted);">
-          <strong>PF</strong> (Points For) = total points scored by the team across regular-season games.<br>
-          <strong>PA</strong> (Points Against) = total points allowed across regular-season games.<br>
-          <em>Rank is calculated from PTS, then Quotient. Apply head-to-head and PD manually if a tie remains.</em>
-        </p>
-      </div>
-    </div>
   `;
 
   root.innerHTML = tableHTML;
