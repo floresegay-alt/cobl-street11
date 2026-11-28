@@ -32,10 +32,27 @@
   tbody tr:hover td{background:var(--bg)}
   
   .pos{color:var(--muted);font-weight:800;margin-right:12px}
-  .team{font-family:Anton;font-size:18px;color:var(--blue);letter-spacing:0.5px}
+  .team{font-family:Anton;font-size:18px;color:var(--blue);letter-spacing:0.5px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:color 0.2s}
+  .team:hover{color:var(--yellow)}
+  .team img{width:28px;height:28px;object-fit:contain;background:#fff;border-radius:50%;padding:2px;border:1px solid var(--line)}
   .pct{font-weight:700;font-family:monospace;font-size:16px}
   
   .empty{padding:60px 20px;text-align:center;color:var(--muted);font-size:16px;background:var(--surface);border-radius:16px;border:1px dashed var(--line)}
+
+  /* Modal */
+  #modal{position:fixed;inset:0;background:rgba(11,19,48,0.85);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
+  #modal.show{display:flex}
+  .mcard{background:var(--surface);border-radius:20px;max-width:450px;width:100%;overflow:hidden;border:4px solid var(--blue);box-shadow:0 20px 40px rgba(0,0,0,0.5);position:relative;max-height:90vh;display:flex;flex-direction:column}
+  .mclose{position:absolute;top:16px;right:16px;background:rgba(0,0,0,0.5);color:#fff;border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10}
+  .mhead{background:var(--hero);padding:30px 20px;text-align:center;color:#fff;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .mhead img{width:80px;height:80px;object-fit:contain;background:#fff;border-radius:50%;padding:4px;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+  .mhead h2{font-size:28px;margin:0;line-height:1.1;color:var(--yellow)}
+  .mbody{padding:20px;overflow-y:auto}
+  .roster-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .roster-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg);border-radius:10px;border:1px solid var(--line);font-size:15px}
+  .roster-num{font-family:Anton;font-size:18px;color:var(--blue);min-width:32px;text-align:center}
+  .roster-name{font-weight:600;flex:1}
+  .roster-badge{background:var(--yellow);color:var(--text);font-size:10px;font-weight:800;padding:2px 6px;border-radius:4px;text-transform:uppercase}
 </style>
 </head>
 <body>
@@ -52,9 +69,13 @@
   </nav>
 
   <h1>Standings</h1>
-  <p class="sub">Season 3 team records and rankings, updating automatically.</p>
+  <p class="sub">Season 3 team records and rankings. Click a team to view their roster.</p>
   
   <div id="app">Loading…</div>
+</div>
+
+<div id="modal">
+  <div class="mcard" id="modalContent"></div>
 </div>
 
 <script src="js/livestats-adapter.js"></script>
@@ -64,17 +85,72 @@
   const root = document.getElementById('app');
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-  let games = [];
-  try { games = await loadGames(); } 
-  catch (e) { root.innerHTML = '<div class="empty">Error loading data.</div>'; return; }
+  let games = [], players = {};
+  try { 
+    // Load games for standings, and players for rosters
+    const [g, pRes] = await Promise.all([loadGames(), fetch('data/players.json', { cache: 'no-store' })]);
+    games = g; 
+    if (pRes.ok) players = await pRes.json();
+  } catch (e) { 
+    root.innerHTML = '<div class="empty">Error loading data.</div>'; 
+    return; 
+  }
 
-  // Use the shared computeStandings function from app.js
   const rows = computeStandings(games);
 
   if (!rows.length){
     root.innerHTML = '<div class="empty">No completed games yet. Team records will appear here once games are finalized.</div>';
     return;
   }
+
+  // We will store the roster data globally so the onclick function can access it
+  const rosters = {};
+  const teamLogos = {};
+
+  // Extract team names directly from the players.json data to ensure they have players even before a game is played
+  const allTeams = new Set([...rows.map(r => r.team), ...Object.values(players).map(p => p.team)]);
+  
+  allTeams.forEach(teamName => {
+    const teamPlayers = Object.values(players).filter(p => p.team === teamName);
+    // Sort by jersey number
+    teamPlayers.sort((a,b) => a.number - b.number);
+    rosters[teamName] = teamPlayers;
+    
+    // Find a logo if it exists in your player.json (we will check for a "logo" property later)
+    // For now, it will default to no logo
+    const logoEntry = teamPlayers.find(p => p.logo);
+    if (logoEntry) teamLogos[teamName] = logoEntry.logo;
+  });
+
+  window.showRoster = function(teamName) {
+    const roster = rosters[teamName] || [];
+    const logo = teamLogos[teamName];
+    
+    let html = `<button class="mclose" onclick="document.getElementById('modal').classList.remove('show')">✕</button>
+      <div class="mhead">
+        ${logo ? `<img src="${esc(logo)}" alt="${esc(teamName)} logo">` : ''}
+        <h2>${esc(teamName)}</h2>
+        <span style="font-size:13px;opacity:0.8;font-weight:600;letter-spacing:1px;text-transform:uppercase;">${roster.length} Players</span>
+      </div>
+      <div class="mbody">`;
+
+    if (roster.length === 0) {
+      html += `<p style="text-align:center;color:var(--muted);padding:20px 0;">No roster data available yet.</p>`;
+    } else {
+      html += `<ul class="roster-list">
+        ${roster.map(p => `
+          <li class="roster-item">
+            <span class="roster-num">#${esc(p.number)}</span>
+            <span class="roster-name">${esc(p.name)}</span>
+            ${p.rookie ? '<span class="roster-badge">Rookie</span>' : ''}
+          </li>`).join('')}
+      </ul>`;
+    }
+    
+    html += `</div>`;
+    document.getElementById('modalContent').innerHTML = html;
+    document.getElementById('modal').classList.add('show');
+  };
 
   root.innerHTML = `
     <table>
@@ -93,7 +169,13 @@
       <tbody>
         ${rows.map((r, i) => `
           <tr>
-            <td><span class="pos">${i + 1}</span><span class="team">${esc(r.team)}</span></td>
+            <td>
+              <span class="pos">${i + 1}</span>
+              <span class="team" onclick="showRoster('${esc(r.team)}')">
+                ${teamLogos[r.team] ? `<img src="${esc(teamLogos[r.team])}" alt="">` : ''}
+                ${esc(r.team)}
+              </span>
+            </td>
             <td>${r.gp}</td>
             <td>${r.wins}</td>
             <td>${r.losses}</td>
@@ -104,6 +186,11 @@
           </tr>`).join('')}
       </tbody>
     </table>`;
+
+  // Close modal when clicking outside
+  document.getElementById('modal').addEventListener('click', (e) => { 
+    if (e.target.id === 'modal') document.getElementById('modal').classList.remove('show'); 
+  });
 })();
 </script>
 </body>
