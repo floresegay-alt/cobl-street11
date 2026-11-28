@@ -239,7 +239,7 @@
               <td>${r.gp > 0 ? (r.pd > 0 ? '+' + r.pd : r.pd) : ''}</td>
               <td>${r.gp > 0 ? r.quotient.toFixed(3) : ''}</td>
               <td>${r.pts}</td>
-              <td>${i + 1}</td>
+              <td>${r.gp === 0 ? '0' : i + 1}</td>
             </tr>`).join('')}
         </tbody>
       </table>
