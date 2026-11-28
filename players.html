@@ -23,9 +23,11 @@
   h1:after{content:"";display:block;width:56px;height:5px;background:var(--yellow);margin-top:8px}
   .sub{color:var(--muted);margin-bottom:28px}
   
-  /* Filters */
-  .filters{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+  /* Filters & Count */
+  .filters{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}
   .filters input,.filters select{background:var(--surface);border:1px solid var(--line);border-radius:8px;color:var(--text);padding:10px 14px;font:inherit;font-family:Poppins}
+  
+  .count-text { margin-bottom: 24px; color: var(--muted); font-weight: 600; font-size: 14px; display: block; }
   
   /* Grid */
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
@@ -62,6 +64,9 @@
   .mhead .num-badge{background:var(--yellow);color:var(--text);font-family:Anton;font-size:14px;padding:2px 10px;border-radius:99px;letter-spacing:1px;margin-bottom:8px}
   .mhead .tm{font-size:14px;opacity:0.8;font-weight:600;letter-spacing:0.5px}
   
+  /* Position text in modal */
+  .mhead .pos-text { font-size: 13px; font-weight: 700; color: #000; background: var(--yellow); padding: 2px 10px; border-radius: 4px; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  
   /* Body Stats */
   .mbody{padding:20px}
   .mstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
@@ -92,6 +97,7 @@
     <select id="teamFilter"><option value="">All Teams</option></select>
   </div>
   
+  <div id="countDisplay" class="count-text">Loading...</div>
   <div id="grid" class="grid">Loading…</div>
 </div>
 
@@ -127,11 +133,8 @@
     return;
   }
 
-  // Find team logos if you added a "logo" field to any player on that team
   const teamLogos = {};
-  entries.forEach(p => {
-    if (p.logo) teamLogos[p.team] = p.logo;
-  });
+  entries.forEach(p => { if (p.logo) teamLogos[p.team] = p.logo; });
 
   const teams = [...new Set(entries.map(p => p.team))].sort();
   $('teamFilter').innerHTML = '<option value="">All Teams</option>' +
@@ -144,6 +147,9 @@
       (!q || (p.name||'').toLowerCase().includes(q)) &&
       (!team || p.team === team));
       
+    // Update player count
+    $('countDisplay').textContent = `Showing ${filtered.length} player${filtered.length === 1 ? '' : 's'}`;
+      
     if (!filtered.length){ $('grid').innerHTML = '<div class="empty">No players match.</div>'; return; }
     
     $('grid').innerHTML = filtered.map(p => {
@@ -151,7 +157,7 @@
         ? `<img src="${esc(p.photo)}" alt="${esc(p.name)}" loading="lazy">`
         : `<div class="placeholder">#${esc(p.number)}</div>`;
         
-      return `<div class="pcard" onclick="showStats('${esc(p.team)}', ${p.number})">
+      return `<div class="pcard" onclick="showStats('${esc(p.id)}')">
         <div class="head">
           ${photo}
           ${p.rookie ? '<span class="rookie">Rookie</span>' : ''}
@@ -165,11 +171,13 @@
     }).join('');
   }
   
-  window.showStats = function(team, number) {
-    const key = `${team}::${number}`;
+  window.showStats = function(id) {
+    const p = entries.find(x => x.id === id);
+    if (!p) return;
+
+    const key = `${p.team}::${p.number}`;
     const stat = statsByKey[key];
-    const p = entries.find(x => x.team === team && x.number === number);
-    const logo = teamLogos[team];
+    const logo = teamLogos[p.team];
     
     let statsHTML = '<p style="color:var(--muted);text-align:center;padding:10px 0;">No game statistics recorded yet.</p>';
     
@@ -189,14 +197,16 @@
       `;
     }
 
-    // Build the player photo (or # placeholder)
-    const photoHTML = p && p.photo 
+    const photoHTML = p.photo 
       ? `<img src="${esc(p.photo)}" class="mphoto" alt="${esc(p.name)}">`
-      : `<div class="mphoto">#${esc(number)}</div>`;
+      : `<div class="mphoto">#${esc(p.number)}</div>`;
 
-    // Build the team logo (if it exists in the database)
     const logoHTML = logo 
-      ? `<img src="${esc(logo)}" class="mlogo" alt="${esc(team)} logo">`
+      ? `<img src="${esc(logo)}" class="mlogo" alt="${esc(p.team)} logo">`
+      : '';
+
+    const positionHTML = p.position 
+      ? `<div class="pos-text">${esc(p.position)}</div>` 
       : '';
 
     $('modalContent').innerHTML = `
@@ -206,10 +216,10 @@
           ${photoHTML}
           ${logoHTML}
         </div>
-        <div class="num-badge">#${esc(number)}</div>
-        <h2>${esc(p ? p.name : 'Unknown')}</h2>
-        <div class="tm">${esc(team)}</div>
-        <div class="tm" style="font-weight:600;color:var(--blue);margin-top:4px;text-transform:uppercase;font-size:11px;letter-spacing:0.5px;">${esc(p && p.position ? p.position : '')}</div>
+        <div class="num-badge">#${esc(p.number)}</div>
+        <h2>${esc(p.name)}</h2>
+        <div class="tm">${esc(p.team)}</div>
+        ${positionHTML}
       </div>
       <div class="mbody">
         ${statsHTML}
