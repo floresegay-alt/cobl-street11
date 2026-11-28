@@ -30,11 +30,15 @@
   
   /* Table */
   .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; margin-bottom: 16px; }
-  table{width:100%;border-collapse:collapse;min-width: 800px;}
+  table{width:100%;border-collapse:collapse;min-width: 850px;}
   th,td{padding:10px 8px;text-align:center;border: 1px solid var(--line);font-size:14px}
   th:nth-child(1),td:nth-child(1){text-align:left;padding-left:12px}
   
   thead th { background: var(--header-bg); color: #fff; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  
+  /* Formula Link in Header */
+  .header-link { color: var(--yellow); font-size: 10px; text-decoration: underline; display: block; margin-top: 2px; cursor: pointer; opacity: 0.8; }
+  .header-link:hover { opacity: 1; }
   
   tbody tr:hover td { background: rgba(27, 63, 216, 0.04); }
   tbody td { color: var(--text); font-weight: 600; }
@@ -43,7 +47,14 @@
   .team-name:hover { color: var(--yellow); }
   .team-name img { width: 24px; height: 24px; object-fit: contain; background: #fff; border-radius: 50%; padding: 2px; border: 1px solid var(--line); }
   
-  .note { font-size: 13px; font-style: italic; color: var(--muted); margin-top: 0; margin-bottom: 40px; }
+  .note { font-size: 13px; font-style: italic; color: var(--muted); margin-top: 0; margin-bottom: 32px; }
+
+  /* Tiebreaker Section */
+  .tiebreaker-box { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 24px; margin-bottom: 40px; }
+  .tiebreaker-box h3 { color: var(--blue); font-size: 20px; margin-bottom: 12px; }
+  .tiebreaker-box ul { padding-left: 20px; margin: 0; font-size: 14px; color: var(--text); }
+  .tiebreaker-box li { margin-bottom: 8px; }
+  .tiebreaker-box code { background: var(--bg); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 13px; color: var(--blue); font-weight: 700; }
 
   .empty{padding:60px 20px;text-align:center;color:var(--muted);font-size:16px;background:var(--surface);border-radius:16px;border:1px dashed var(--line)}
 
@@ -60,6 +71,7 @@
     .title-box h2 { font-size: 20px; }
     th, td { padding: 8px 6px; font-size: 12px; }
     .team-name { font-size: 13px; }
+    .tiebreaker-box { padding: 16px; }
   }
 </style>
 </head>
@@ -136,8 +148,10 @@
     }
   });
 
+  // Calculate Quotient
   const rows = Object.values(table).map(t => {
     t.pd = t.pf - t.pa;
+    // Tiebreaker Formula: PF / PA
     t.quotient = t.pa === 0 ? (t.pf > 0 ? 999 : 0) : +(t.pf / t.pa).toFixed(3);
     return t;
   });
@@ -181,7 +195,7 @@
   // Render HTML
   let tableHTML = `
     <div class="title-box">
-      <h2>COBL x Street 11 Basketball SEASON 3 - 11-TEAM STANDINGS & QUOTIENT TIEBREAKER TRACKER</h2>
+      <h2>COBL x Street 11 Basketball SEASON 3 - 11-TEAM STANDINGS</h2>
     </div>
 
     <div class="table-wrap">
@@ -195,7 +209,10 @@
             <th>PF</th>
             <th>PA</th>
             <th>PD</th>
-            <th>Quotient (PF/PA)</th>
+            <th>
+              Quotient (PF/PA)
+              <a href="#tiebreakers" class="header-link">See Formula ⬇</a>
+            </th>
             <th>PTS</th>
             <th>Rank</th>
           </tr>
@@ -223,6 +240,25 @@
       </table>
     </div>
     <p class="note">* Top 8 teams advance to the Quarterfinals (Best-of-3 Series).</p>
+
+    <div class="tiebreaker-box" id="tiebreakers">
+      <h3>Tiebreaker Rules & Formula</h3>
+      <ul>
+        <li><b>Two-Team Tiebreaker:</b> Head-to-Head win-loss record between the tied teams.</li>
+        <li><b>Multi-Team Tiebreaker (Quotient System):</b> Used when 3 or more teams are tied in Standings Points.
+          <ul style="margin-top:4px; margin-bottom:4px;">
+            <li>Formula: <code>Quotient = Total Points For (PF) ÷ Total Points Against (PA)</code></li>
+            <li>Higher Quotient value gets the higher rank.</li>
+          </ul>
+        </li>
+        <li><b>Point Differential (PD):</b> <code>Total Points For (PF) - Total Points Against (PA)</code>, used as a secondary tiebreaker.</li>
+        <li style="list-style-type:none; margin-top:12px; font-size:13px; color:var(--muted);">
+          <b>PF</b> (Points For) = total points scored by the team across regular-season games.<br>
+          <b>PA</b> (Points Against) = total points allowed across regular-season games.<br>
+          <i>Rank is calculated from PTS, then Quotient. Apply head-to-head and PD manually if a tie remains.</i>
+        </li>
+      </ul>
+    </div>
   `;
 
   root.innerHTML = tableHTML;
