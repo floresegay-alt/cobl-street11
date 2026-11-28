@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Action Photos · COBL × Street 11</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f6f7fb;--surface:#fff;--text:#0b1330;--muted:#4b5575;--blue:#1b3fd8;--yellow:#ffd60a;--line:#dde2f0;--hero:#0a1f8f;--win:#22c55e;--gold:#f59e0b}
+  @media (prefers-color-scheme:dark){:root{--bg:#070b1f;--surface:#0f1633;--text:#f4f6ff;--muted:#a8b2d6;--line:#222c57}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:Poppins,system-ui,sans-serif;line-height:1.6}
+  h1,h2,h3{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.02em;margin:0}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 20px 60px}
+  
+  /* Navbar */
+  nav{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);margin-bottom:32px}
+  nav b{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:22px;letter-spacing:.04em;color:var(--blue)}
+  nav .nav-links { display: flex; flex-wrap: wrap; gap: 12px; }
+  nav a{color:var(--text);text-decoration:none;font-size:14px;font-weight:600;opacity:0.85}
+  nav a:hover, nav a.active{color:var(--blue);opacity:1}
+
+  h1{font-size:38px;margin-bottom:8px}
+  h1:after{content:"";display:block;width:56px;height:5px;background:var(--yellow);margin-top:8px}
+  .sub{color:var(--muted);margin-bottom:28px}
+
+  /* Gallery Grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  
+  .pcard { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.2s; }
+  .pcard:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(27,63,216,0.15); border-color: var(--blue); }
+
+  .pcard .shot { display: block; width: 100%; aspect-ratio: 4/3; background: #000; overflow: hidden; }
+  .pcard .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  
+  .pcard .cap { padding: 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .pcard .cap b { font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: 16px; letter-spacing: 0.02em; text-transform: uppercase; color: var(--text); line-height: 1.25; }
+  .pcard .cap small { color: var(--muted); font-size: 12px; line-height: 1.4; }
+  
+  .pcard .links { display: flex; gap: 12px; margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+  .pcard .links a { font-size: 13px; font-weight: 600; text-decoration: none; color: var(--blue); display: inline-flex; align-items: center; gap: 4px; }
+  .pcard .links a.yt { color: #c4302b; }
+  .pcard .links a:hover { text-decoration: underline; }
+
+  .empty { padding: 60px 20px; text-align: center; color: var(--muted); font-size: 16px; background: var(--surface); border-radius: 16px; border: 1px dashed var(--line); }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    nav { flex-direction: column; align-items: flex-start; gap: 12px; }
+    h1 { font-size: 32px; }
+    .grid { grid-template-columns: 1fr; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <b>COBL × Street 11 Basketball</b>
+    <div class="nav-links">
+      <a href="index.html">Schedule</a>
+      <a href="results.html">Results</a>
+      <a href="standings.html">Standings</a>
+      <a href="season.html">Season Races</a>
+      <a href="players.html">Players</a>
+      <a href="gallery.html" class="active">Gallery</a>
+    </div>
+  </nav>
+
+  <h1>Action Photos</h1>
+  <p class="sub">Game-day moments — each photo links to the game result and full broadcast.</p>
+  
+  <div id="photoGrid" class="grid">Loading…</div>
+</div>
+
+<script src="js/livestats-adapter.js"></script>
+<script src="js/app.js"></script>
+<script>
+(async function(){
+  const grid = document.getElementById('photoGrid');
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  let photos = [], games = [];
+  try {
+    const [pRes, gRes] = await Promise.all([
+      fetch('data/photos.json', { cache: 'no-store' }),
+      loadGames()
+    ]);
+    if (pRes.ok) photos = await pRes.json();
+    games = gRes;
+  } catch (e) {
+    grid.innerHTML = '<div class="empty">Could not load photos.</div>';
+    return;
+  }
+  
+  if (!Array.isArray(photos) || !photos.length){
+    grid.innerHTML = '<div class="empty">No action photos yet. Add entries to data/photos.json to see them here!</div>';
+    return;
+  }
+
+  const byId = Object.fromEntries((games || []).map(g => [g.id, g]));
+
+  const fmtDate = iso => {
+    if (!iso) return '';
+    const d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+  };
+
+  function autoCaption(photo, game){
+    const parts = [];
+    if (photo.player?.name){
+      parts.push(`${photo.player.name}${photo.player.number != null ? ` (#${photo.player.number})` : ''}`);
+    }
+    if (photo.player?.team) parts.push(photo.player.team);
+    if (game){
+      const d = fmtDate(game.date);
+      if (d) parts.push(d);
+      const opp = game.home === photo.player?.team ? `vs ${game.away}`
+                : game.away === photo.player?.team ? `vs ${game.home}`
+                : `${game.home} vs ${game.away}`;
+      if (opp) parts.push(opp);
+    }
+    return parts.join(' · ');
+  }
+
+  grid.innerHTML = photos.map(p => {
+    const game = byId[p.gameId];
+    const caption = (p.caption && p.caption.trim()) ? p.caption : autoCaption(p, game);
+    const src = p.thumb || p.src;
+    
+    // Link to the results page anchor (results.html#game-id)
+    const gameLink = p.gameId ? `results.html#${encodeURIComponent(p.gameId)}` : 'results.html';
+    const ytLink = p.youtube ? p.youtube : `https://www.youtube.com/watch?v=${p.youtubeId}`;
+    const ytHTML = p.youtube || p.youtubeId ? `<a class="yt" href="${esc(ytLink)}" target="_blank" rel="noopener">YouTube ↗</a>` : '';
+
+    return `
+      <article class="pcard">
+        <div class="shot">
+          <img src="${esc(src)}" alt="${esc(caption)}" loading="lazy">
+        </div>
+        <div class="cap">
+          <b>${esc(caption)}</b>
+          <div class="links">
+            <a href="${esc(gameLink)}">Game result →</a>
+            ${ytHTML}
+          </div>
+        </div>
+      </article>`;
+  }).join('');
+})();
+</script>
+</body>
+</html>
